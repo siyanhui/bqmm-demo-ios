@@ -18,7 +18,6 @@
 @interface MMChatViewController (){
     NSMutableArray *_messagesArray;
     MMMessage *_longPressSelectedModel;
-    UIMenuController *_menuController;
     BOOL _isFirstLayOut;
 }
 
@@ -27,11 +26,12 @@
 @implementation MMChatViewController
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     //menu
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHide) name:UIMenuControllerWillHideMenuNotification object:nil];
     
     [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //设置BQMM键盘delegate
-    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];
+    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];//设置表情联想
 }
 
 - (void)menuDidHide {
@@ -40,7 +40,9 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [MMEmotionCentre defaultCentre].delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -237,18 +239,14 @@
     
     CGRect rect = [self.view convertRect:view.frame fromView:view.superview];
     
-    _menuController = [UIMenuController sharedMenuController];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
     UIMenuItem *copyItem = [[UIMenuItem alloc]
                             initWithTitle:@"复制"
                             action:@selector(onCopyMessage)];
-    [_menuController setMenuItems:nil];
-    [_menuController setMenuItems:@[ copyItem ]];
-    [_menuController setTargetRect:rect inView:self.view];
-    [_menuController setMenuVisible:YES animated:YES];
-}
-
-- (BOOL)canBecomeFirstResponder {
-    return YES;
+    [menuController setMenuItems:nil];
+    [menuController setMenuItems:@[ copyItem ]];
+    [menuController setTargetRect:rect inView:self.view];
+    [menuController setMenuVisible:YES animated:YES];
 }
 
 - (void)onCopyMessage {
@@ -272,5 +270,9 @@
 - (void)didTapUrlInMessageCell:(NSString *)url {
     NSURL *stringUrl = [[NSURL alloc] initWithString:url];
     [[UIApplication sharedApplication] openURL:stringUrl];
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
 @end

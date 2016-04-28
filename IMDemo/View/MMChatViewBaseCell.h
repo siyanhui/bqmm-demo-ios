@@ -11,17 +11,12 @@
 #import <BQMM/BQMM.h>
 #import "MMTextParser+ExtData.h"
 
-#define BUBBLE_MAX_WIDTH ([[UIScreen mainScreen] bounds].size.width * 0.65)
-#define TEXT_MESSAGEFONT_SIZE 17
-#define CONTENT_TOP_MARGIN 6
-#define CONTENT_BOTTOM_MARGIN 6
-#define CONTENT_LEFT_MARGIN 6
-#define CONTENT_RIGHT_MARGIN 14
-
-#define TEXT_MESG_TYPE @"txt_msgType"  //文字消息类型key的名称
-#define TEXT_MESG_FACE_TYPE @"facetype" //大表情消息类型
-#define TEXT_MESG_EMOJI_TYPE @"emojitype" //图文混排消息类型
-#define TEXT_MESG_DATA @"msg_data"  //文字消息扩展内容
+#define BUBBLE_MAX_WIDTH              ([[UIScreen mainScreen] bounds].size.width * 0.65)
+#define TEXT_MESSAGEFONT_SIZE         17
+#define CONTENT_TOP_MARGIN            6
+#define CONTENT_BOTTOM_MARGIN         6
+#define CONTENT_LEFT_MARGIN           6
+#define CONTENT_RIGHT_MARGIN          14
 
 @protocol RCMessageCellDelegate;
 

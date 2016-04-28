@@ -45,11 +45,6 @@
 - (void)keyboardWillShowWithFrame:(CGRect)keyboardFrame;
 
 /*!
- 键盘即将隐藏的回调
- */
-- (void)keyboardWillHide;
-
-/*!
  点击键盘Return按钮的回调
  
  @param inputView    当前输入工具栏

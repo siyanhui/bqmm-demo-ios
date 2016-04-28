@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#define TEXT_MESG_TYPE @"txt_msgType"  //文字消息类型key的名称
-#define TEXT_MESG_FACE_TYPE @"facetype" //大表情消息类型
-#define TEXT_MESG_EMOJI_TYPE @"emojitype" //图文混排消息类型
-#define TEXT_MESG_DATA @"msg_data"  //文字消息扩展内容
+#define TEXT_MESG_TYPE            @"txt_msgType"  //文字消息类型key的名称
+#define TEXT_MESG_FACE_TYPE       @"facetype" //大表情消息类型
+#define TEXT_MESG_EMOJI_TYPE      @"emojitype" //图文混排消息类型
+#define TEXT_MESG_DATA            @"msg_data"  //文字消息扩展内容
 
 typedef NS_ENUM(NSUInteger, MMMessageType) {
     /*!

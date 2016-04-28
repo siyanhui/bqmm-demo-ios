@@ -147,23 +147,6 @@
     return YES;
 }
 
-- (void)layoutTextView:(UITextView *)textView {
-    CGFloat height = textView.contentSize.height;
-    if(height != _inputTextViewHeight) {
-        
-        if(height > TEXTVIEW_MIN_HEIGHT) {
-            _inputTextViewHeight = height;
-            if(height + textView.textContainerInset.top + textView.textContainerInset.bottom < TEXTVIEW_MAX_HEIGHT) {
-            }else{
-                _inputTextViewHeight = (TEXTVIEW_MAX_HEIGHT - textView.textContainerInset.top - textView.textContainerInset.bottom);
-            }
-        }else{
-            _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
-        }
-        [self relayout];
-    }
-}
-
 - (void)textViewDidChange:(UITextView *)textView {
     if (textView.markedTextRange == nil) {
         NSRange selectedRange = textView.selectedRange;
@@ -217,6 +200,23 @@
     self.inputTextView.mmText = @"";
     _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
     [self relayout];
+}
+
+- (void)layoutTextView:(UITextView *)textView {
+    CGFloat height = textView.contentSize.height;
+    if(height != _inputTextViewHeight) {
+        
+        if(height > TEXTVIEW_MIN_HEIGHT) {
+            _inputTextViewHeight = height;
+            if(height + textView.textContainerInset.top + textView.textContainerInset.bottom < TEXTVIEW_MAX_HEIGHT) {
+            }else{
+                _inputTextViewHeight = (TEXTVIEW_MAX_HEIGHT - textView.textContainerInset.top - textView.textContainerInset.bottom);
+            }
+        }else{
+            _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
+        }
+        [self relayout];
+    }
 }
 
 - (void)relayout{
