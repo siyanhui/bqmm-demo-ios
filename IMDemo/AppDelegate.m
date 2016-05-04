@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import <BQMM/BQMM.h>
 #import "MMChatViewController.h"
-
 #define BMQQ_APP_ID           @"your app id"
 #define BMQQ_APP_SECRET       @"your app secret"
 @interface AppDelegate ()

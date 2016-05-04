@@ -23,6 +23,7 @@
 
 
 @property(weak, nonatomic) id<MMInputToolBarViewDelegate> delegate;
+@property(strong, nonatomic) UIView *sepeLine;
 @property(strong, nonatomic) MMTextView *inputTextView;
 @property(strong, nonatomic) UIButton *emojiButton;
 

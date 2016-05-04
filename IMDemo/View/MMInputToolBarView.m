@@ -93,8 +93,11 @@
 
 - (void)setView
 {
+    _sepeLine = [[UIView alloc] init];
+    _sepeLine.backgroundColor = [UIColor colorWithRed:150 / 255.f green:150 / 255.f blue:150 / 255.f alpha:1];
+    [self addSubview:_sepeLine];
     _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
-    self.backgroundColor = [UIColor colorWithRed:200 / 255.f green:200 / 255.f blue:200 / 255.f alpha:1];
+    self.backgroundColor = [UIColor whiteColor];
     _inputTextView = [[MMTextView alloc] init];
     _inputTextView.delegate = self;
     [_inputTextView setExclusiveTouch:YES];
@@ -106,7 +109,7 @@
     _inputTextView.layer.cornerRadius = 4;
     _inputTextView.layer.masksToBounds = YES;
     _inputTextView.layer.borderWidth = 0.3f;
-    _inputTextView.layer.borderColor = [UIColor colorWithRed:60 / 255.f green:60 / 255.f blue:60 / 255.f alpha:1].CGColor;
+    _inputTextView.layer.borderColor = [UIColor colorWithRed:100 / 255.f green:100 / 255.f blue:100 / 255.f alpha:1].CGColor;
 
     [self addSubview:_inputTextView];
     
@@ -126,8 +129,10 @@
 - (void)layoutViews {
     CGSize viewSize = self.frame.size;
     
-    CGSize emojiButtonSize = CGSizeMake(28, 28);
-    self.emojiButton.frame = CGRectMake(15, viewSize.height - emojiButtonSize.height - 11, emojiButtonSize.width, emojiButtonSize.height);
+    self.sepeLine.frame = CGRectMake(0, 0, viewSize.width, 0.5);
+    
+    CGSize emojiButtonSize = CGSizeMake(35, 35);
+    self.emojiButton.frame = CGRectMake(15, viewSize.height - emojiButtonSize.height - 7.5, emojiButtonSize.width, emojiButtonSize.height);
     
     CGFloat inputViewWidth = viewSize.width - CGRectGetMaxX(self.emojiButton.frame) - 10 - 10;
     self.inputTextView.frame = CGRectMake(CGRectGetMaxX(self.emojiButton.frame) + 10, (viewSize.height - _inputTextViewHeight) / 2, inputViewWidth, _inputTextViewHeight);
