@@ -98,12 +98,10 @@
 }
 
 - (void)scrollViewToBottom {
-    NSUInteger finalRow = MAX(0, [self.messagesTableView numberOfRowsInSection:0] - 1);
-    if (0 == finalRow) {
-        return;
+    if(self.messagesTableView.contentSize.height > self.messagesTableView.frame.size.height) {
+        CGPoint offSet = CGPointMake(0, self.messagesTableView.contentSize.height - self.messagesTableView.frame.size.height);
+        [self.messagesTableView setContentOffset:offSet animated:true];
     }
-    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
-    [self.messagesTableView scrollToRowAtIndexPath:finalIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:true];
 }
 #pragma mark - Table view data source
 
@@ -172,7 +170,9 @@
     NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_FACE_TYPE,
                           TEXT_MESG_DATA:[MMTextParser extDataWithEmojiCode:emoji.emojiCode]};
     MMMessage *message = [[MMMessage alloc] initWithMessageType:MMMessageTypeBigEmoji messageContent:sendStr messageExtraInfo:extDic];
-    [self appendAndDisplayMessage:message];
+    [_messagesArray addObject:message];
+    [self.messagesTableView reloadData];
+    [self scrollViewToBottom];
 }
 
 - (void)didTouchKeyboardReturnKey:(MMInputToolBarView *)inputView text:(NSString *)text {
@@ -196,7 +196,9 @@
         }
 
         MMMessage *message = [[MMMessage alloc] initWithMessageType:MMMessageTypeText messageContent:sendStr messageExtraInfo:extDic];
-        [self appendAndDisplayMessage:message];
+        [_messagesArray addObject:message];
+        [self.messagesTableView reloadData];
+        [self scrollViewToBottom];
         
     }];
 }
@@ -215,22 +217,6 @@
     } completion:^(BOOL finished) {
         
     }];
-    [self scrollViewToBottom];
-}
-
-#pragma mark -- private
-- (void)appendAndDisplayMessage:(MMMessage *)message {
-    if (!message) {
-        return;
-    }
-    [_messagesArray addObject:message];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_messagesArray.count - 1 inSection:0];
-    if ([self.messagesTableView numberOfRowsInSection:0] != _messagesArray.count - 1) {
-        NSLog(@"Error, datasource and tableview are inconsistent!!");
-        [self.messagesTableView reloadData];
-        return;
-    }
-    [self.messagesTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     [self scrollViewToBottom];
 }
 
