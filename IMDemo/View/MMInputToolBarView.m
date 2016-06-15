@@ -7,7 +7,6 @@
 //
 
 #import "MMInputToolBarView.h"
-#import <BQMM/BQMM.h>
 
 @implementation MMInputToolBarView
 
@@ -93,11 +92,8 @@
 
 - (void)setView
 {
-    _sepeLine = [[UIView alloc] init];
-    _sepeLine.backgroundColor = [UIColor colorWithRed:150 / 255.f green:150 / 255.f blue:150 / 255.f alpha:1];
-    [self addSubview:_sepeLine];
     _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor colorWithRed:200 / 255.f green:200 / 255.f blue:200 / 255.f alpha:1];
     _inputTextView = [[MMTextView alloc] init];
     _inputTextView.delegate = self;
     [_inputTextView setExclusiveTouch:YES];
@@ -109,7 +105,7 @@
     _inputTextView.layer.cornerRadius = 4;
     _inputTextView.layer.masksToBounds = YES;
     _inputTextView.layer.borderWidth = 0.3f;
-    _inputTextView.layer.borderColor = [UIColor colorWithRed:100 / 255.f green:100 / 255.f blue:100 / 255.f alpha:1].CGColor;
+    _inputTextView.layer.borderColor = [UIColor colorWithRed:60 / 255.f green:60 / 255.f blue:60 / 255.f alpha:1].CGColor;
 
     [self addSubview:_inputTextView];
     
@@ -129,10 +125,8 @@
 - (void)layoutViews {
     CGSize viewSize = self.frame.size;
     
-    self.sepeLine.frame = CGRectMake(0, 0, viewSize.width, 0.5);
-    
-    CGSize emojiButtonSize = CGSizeMake(35, 35);
-    self.emojiButton.frame = CGRectMake(15, viewSize.height - emojiButtonSize.height - 7.5, emojiButtonSize.width, emojiButtonSize.height);
+    CGSize emojiButtonSize = CGSizeMake(28, 28);
+    self.emojiButton.frame = CGRectMake(15, viewSize.height - emojiButtonSize.height - 11, emojiButtonSize.width, emojiButtonSize.height);
     
     CGFloat inputViewWidth = viewSize.width - CGRectGetMaxX(self.emojiButton.frame) - 10 - 10;
     self.inputTextView.frame = CGRectMake(CGRectGetMaxX(self.emojiButton.frame) + 10, (viewSize.height - _inputTextViewHeight) / 2, inputViewWidth, _inputTextViewHeight);
@@ -152,7 +146,25 @@
     return YES;
 }
 
+- (void)layoutTextView:(UITextView *)textView {
+    CGFloat height = textView.contentSize.height;
+    if(height != _inputTextViewHeight) {
+        
+        if(height > TEXTVIEW_MIN_HEIGHT) {
+            _inputTextViewHeight = height;
+            if(height + textView.textContainerInset.top + textView.textContainerInset.bottom < TEXTVIEW_MAX_HEIGHT) {
+            }else{
+                _inputTextViewHeight = (TEXTVIEW_MAX_HEIGHT - textView.textContainerInset.top - textView.textContainerInset.bottom);
+            }
+        }else{
+            _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
+        }
+        [self relayout];
+    }
+}
+
 - (void)textViewDidChange:(UITextView *)textView {
+    //BQMM集成
     if (textView.markedTextRange == nil) {
         NSRange selectedRange = textView.selectedRange;
         textView.mmText = textView.mmText;
@@ -161,6 +173,7 @@
     [self performSelector:@selector(layoutTextView:) withObject:textView afterDelay:0.1];
 }
 
+//BQMM集成
 #pragma mark MMEmotionCentreDelegate
 
 - (void)didSelectEmoji:(MMEmoji *)emoji
@@ -192,6 +205,7 @@
     }
 }
 
+//BQMM集成
 #pragma mark private method
 - (void)didSendTextMessage {
     if ([self.delegate respondsToSelector:@selector(didTouchKeyboardReturnKey:text:)]) {
@@ -205,23 +219,6 @@
     self.inputTextView.mmText = @"";
     _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
     [self relayout];
-}
-
-- (void)layoutTextView:(UITextView *)textView {
-    CGFloat height = textView.contentSize.height;
-    if(height != _inputTextViewHeight) {
-        
-        if(height > TEXTVIEW_MIN_HEIGHT) {
-            _inputTextViewHeight = height;
-            if(height + textView.textContainerInset.top + textView.textContainerInset.bottom < TEXTVIEW_MAX_HEIGHT) {
-            }else{
-                _inputTextViewHeight = (TEXTVIEW_MAX_HEIGHT - textView.textContainerInset.top - textView.textContainerInset.bottom);
-            }
-        }else{
-            _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
-        }
-        [self relayout];
-    }
 }
 
 - (void)relayout{

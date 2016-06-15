@@ -80,7 +80,7 @@
 + (CGSize)bubbleSizeFor:(MMMessage *)message {
     CGSize size = CGSizeMake(0, 0);
     switch (message.messageType) {
-
+        //BQMM集成
         case MMMessageTypeText:
             if(message.messageExtraInfo != nil) {
                 size = [MMTextParser sizeForMMTextWithExtData:message.messageExtraInfo[TEXT_MESG_DATA] font:[UIFont systemFontOfSize:TEXT_MESSAGEFONT_SIZE] maximumTextWidth:BUBBLE_MAX_WIDTH - (CONTENT_RIGHT_MARGIN + CONTENT_LEFT_MARGIN)];

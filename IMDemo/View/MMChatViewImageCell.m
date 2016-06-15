@@ -34,7 +34,7 @@
     [super set:messageData];
     
     self.pictureView.image = [UIImage imageNamed:@"mm_emoji_loading"];
-    
+    //BQMM集成
     NSDictionary *extDic = messageData.messageExtraInfo;
     if (extDic != nil && [extDic[TEXT_MESG_TYPE] isEqualToString:TEXT_MESG_FACE_TYPE]) {
         NSArray *codes = nil;

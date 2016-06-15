@@ -10,7 +10,7 @@
 #import "MMChatViewTextCell.h"
 #import "MMChatViewImageCell.h"
 #import "MMMessage.h"
-
+//BQMM集成
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
 #import "MMTextParser+ExtData.h"
@@ -18,6 +18,7 @@
 @interface MMChatViewController (){
     NSMutableArray *_messagesArray;
     MMMessage *_longPressSelectedModel;
+    UIMenuController *_menuController;
     BOOL _isFirstLayOut;
 }
 
@@ -26,12 +27,11 @@
 @implementation MMChatViewController
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     //menu
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHide) name:UIMenuControllerWillHideMenuNotification object:nil];
     
     [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //设置BQMM键盘delegate
-    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];//设置表情联想
+    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];
 }
 
 - (void)menuDidHide {
@@ -40,9 +40,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
     [MMEmotionCentre defaultCentre].delegate = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -150,7 +148,7 @@
     [cell set:message];
     return cell;
 }
-
+//BQMM集成
 #pragma mark <MMInputToolBarViewDelegate>
 - (void)keyboardWillShowWithFrame:(CGRect)keyboardFrame {
     [self layoutViewsWithKeyboardFrame:keyboardFrame];
@@ -170,7 +168,7 @@
 - (void)didSendMMFace:(MMEmoji *)emoji {
     NSString *sendStr = [@"[" stringByAppendingFormat:@"%@]", emoji.emojiName];
     NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_FACE_TYPE,
-                          TEXT_MESG_DATA:[MMTextParser extDataWithEmojiCode:emoji.emojiCode]};
+                             TEXT_MESG_DATA:[MMTextParser extDataWithEmojiCode:emoji.emojiCode]};
     MMMessage *message = [[MMMessage alloc] initWithMessageType:MMMessageTypeBigEmoji messageContent:sendStr messageExtraInfo:extDic];
     [self appendAndDisplayMessage:message];
 }
@@ -197,6 +195,8 @@
 
         MMMessage *message = [[MMMessage alloc] initWithMessageType:MMMessageTypeText messageContent:sendStr messageExtraInfo:extDic];
         [self appendAndDisplayMessage:message];
+
+        
     }];
 }
 
@@ -233,6 +233,7 @@
     [self scrollViewToBottom];
 }
 
+//BQMM集成
 #pragma mark RCMessageCellDelegate
 - (void)didTapChatViewCell:(MMMessage *)messageModel {
     if(messageModel.messageType == MMMessageTypeBigEmoji){
@@ -252,14 +253,18 @@
     
     CGRect rect = [self.view convertRect:view.frame fromView:view.superview];
     
-    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    _menuController = [UIMenuController sharedMenuController];
     UIMenuItem *copyItem = [[UIMenuItem alloc]
                             initWithTitle:@"复制"
                             action:@selector(onCopyMessage)];
-    [menuController setMenuItems:nil];
-    [menuController setMenuItems:@[ copyItem ]];
-    [menuController setTargetRect:rect inView:self.view];
-    [menuController setMenuVisible:YES animated:YES];
+    [_menuController setMenuItems:nil];
+    [_menuController setMenuItems:@[ copyItem ]];
+    [_menuController setTargetRect:rect inView:self.view];
+    [_menuController setMenuVisible:YES animated:YES];
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
 
 - (void)onCopyMessage {
@@ -283,9 +288,5 @@
 - (void)didTapUrlInMessageCell:(NSString *)url {
     NSURL *stringUrl = [[NSURL alloc] initWithString:url];
     [[UIApplication sharedApplication] openURL:stringUrl];
-}
-
-- (BOOL)canBecomeFirstResponder {
-    return YES;
 }
 @end

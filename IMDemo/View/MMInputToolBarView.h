@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+//BQMM集成
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
 #define INPUT_TOOL_BAR_HEIGHT 50.0f
@@ -23,7 +24,6 @@
 
 
 @property(weak, nonatomic) id<MMInputToolBarViewDelegate> delegate;
-@property(strong, nonatomic) UIView *sepeLine;
 @property(strong, nonatomic) MMTextView *inputTextView;
 @property(strong, nonatomic) UIButton *emojiButton;
 
@@ -45,6 +45,12 @@
  */
 - (void)keyboardWillShowWithFrame:(CGRect)keyboardFrame;
 
+/*!
+ 键盘即将隐藏的回调
+ */
+- (void)keyboardWillHide;
+
+//BQMM集成
 /*!
  点击键盘Return按钮的回调
  

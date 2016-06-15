@@ -56,6 +56,16 @@
 
 #pragma mark - setter/getter
 
+- (UIImage *)getEmptyImage {
+    static UIImage *emptyImage = nil;
+    if (!emptyImage) {
+        if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
+            emptyImage = [UIImage imageNamed:@"empty"];
+        }
+    }
+    return emptyImage;
+}
+
 - (void)setMmFont:(UIFont *)mmFont {
     _mmFont = mmFont;
     [self setFont:mmFont];
@@ -117,10 +127,12 @@
 }
 
 - (void)setMmTextData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {
+
     [self setPlaceholderTextWithData:extData];
     [self updateAttributeTextWithData:extData completionHandler:completionHandler];
-    
+
     [self clearImageViewsCover];
+    UIImage *emptyImage = [self getEmptyImage];
     [self.attributedText enumerateAttribute:NSAttachmentAttributeName
                                     inRange:NSMakeRange(0, [self.attributedText length])
                                     options:0
@@ -129,8 +141,9 @@
                                          MMTextAttachment *attachment = (MMTextAttachment *)value;
                                          [self.attachmentRanges addObject:[NSValue valueWithRange:range]];
                                          [self.attachments addObject:value];
-                                         UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
-                                         attachment.image = nil;
+                                         UIImageView *imgView = [[UIImageView alloc] init];
+                                         imgView.image = attachment.emoji.emojiImage;
+                                         attachment.image = emptyImage;
                                          [self.imageViews addObject:imgView];
                                      }
                                  }];
@@ -378,6 +391,7 @@
     
     //
     [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeAll codes:codes completionHandler:^(NSArray *emojis) {
+
         NSMutableAttributedString *mAStr = [[NSMutableAttributedString alloc] init];
         for (MMEmoji *emoji in emojis) {
             NSInteger objIndex = [textImgArray indexOfObject:emoji.emojiCode];
@@ -386,13 +400,12 @@
                 objIndex = [textImgArray indexOfObject:emoji.emojiCode];
             }
         }
+        UIImage *emptyImage = [self getEmptyImage];
         for (id obj in textImgArray) {
             if ([obj isKindOfClass:[MMEmoji class]]) {
                 MMTextAttachment *attachment = [[MMTextAttachment alloc] init];
                 attachment.emoji = obj;
-                if ([attachment.image.images count] > 1) {
-                    attachment.image = [attachment placeHolderImage];
-                }
+                attachment.image = emptyImage;
                 [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
             } else {
                 [mAStr appendAttributedString:[[NSAttributedString alloc] initWithString:obj]];

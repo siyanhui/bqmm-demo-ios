@@ -7,10 +7,11 @@
 //
 
 #import "AppDelegate.h"
+//BQMM集成
 #import <BQMM/BQMM.h>
+
 #import "MMChatViewController.h"
-#define BMQQ_APP_ID           @"your app id"
-#define BMQQ_APP_SECRET       @"your app secret"
+
 @interface AppDelegate ()
 
 @end
@@ -20,8 +21,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[MMEmotionCentre defaultCentre] setAppId:BMQQ_APP_ID
-                                       secret:BMQQ_APP_SECRET];
+    
+    
+    //BQMM集成  初始化
+    NSString *appId = @"15e0710942ec49a29d2224a6af4460ee";
+    NSString *secret = @"b11e0936a9d04be19300b1d6eec0ccd5";
+    [[MMEmotionCentre defaultCentre] setAppId:appId
+                                       secret:secret];
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
     
     MMChatViewController *VC = [[MMChatViewController alloc] init];
@@ -43,7 +49,8 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    //BQMM集成
+    [[MMEmotionCentre defaultCentre] clearSession];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
