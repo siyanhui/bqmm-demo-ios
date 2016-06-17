@@ -13,31 +13,35 @@
 /**
  *  表情ID
  */
-@property (nonatomic, copy) NSString *emojiId;
+@property (nonatomic, copy, nullable) NSString *emojiId;
 
 /**
  *  表情名称
  */
-@property (nonatomic, copy) NSString *emojiName;
+@property (nonatomic, copy, nullable) NSString *emojiName;
 
 /**
  *  表情编码
  */
-@property (nonatomic, copy) NSString *emojiCode;
+@property (nonatomic, copy, nullable) NSString *emojiCode;
 
 /**
  *  表情图片
  */
-@property (nonatomic, strong) UIImage *emojiImage;
+@property (nonatomic, strong, nullable) UIImage *emojiImage;
 
 /**
  *  图片数据
  */
-@property (nonatomic, strong) NSData *emojiData;
+@property (nonatomic, strong, nullable) NSData *emojiData;
 
 /**
  *  表情包ID
  */
-@property (nonatomic, copy) NSString *packageId;
+@property (nonatomic, copy, nullable) NSString *packageId;
+/**
+ *  是否小表情
+ */
+@property (nonatomic, assign) BOOL isEmoji;
 
 @end

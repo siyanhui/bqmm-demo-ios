@@ -13,7 +13,7 @@
 /**
  *  表情消息
  */
-@property(nonatomic, assign) NSString *mmText;
+@property(nonatomic, assign, nullable) NSString *mmText;
 
 /**
  *  获取特定范围内的表情消息
@@ -22,6 +22,6 @@
  *
  *  @return 表情消息
  */
-- (NSString *)mmTextWithRange:(NSRange)range;
+- (nullable NSString *)mmTextWithRange:(NSRange)range;
 
 @end

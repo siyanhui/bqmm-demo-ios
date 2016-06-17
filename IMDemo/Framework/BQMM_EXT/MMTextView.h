@@ -10,7 +10,6 @@
 
 @protocol MMTextViewDelegate;
 
-
 @interface MMTextView : UITextView<UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) id <MMTextViewDelegate> clickActionDelegate;
@@ -85,5 +84,3 @@
 - (void)mmTextView:(MMTextView *)textView didTapTextView:(NSString *)content;
 
 @end
-
-

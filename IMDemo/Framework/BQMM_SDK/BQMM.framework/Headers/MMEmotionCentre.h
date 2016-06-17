@@ -11,6 +11,24 @@
 #import "MMEmoji.h"
 
 /**
+ sdk 区域
+ */
+typedef enum
+{
+    MMRegionChina   = 0,
+    MMRegionOther   = 1,
+} MMRegion;
+
+/**
+ sdk 语言
+ */
+typedef enum
+{
+    MMLanguageChinese,
+    MMLanguageEnglish,
+} MMLanguage;
+
+/**
  定义表情的类型，大表情或者小表情
  */
 typedef enum
@@ -35,21 +53,21 @@ typedef enum
  *
  *  @param emoji 代表大表情的数据模型
  */
-- (void)didSelectEmoji:(MMEmoji *)emoji;
+- (void)didSelectEmoji:(nonnull MMEmoji *)emoji;
 
 /**
  *  点击联想表情的代理
  *
  *  @param emoji 代表联想表情的数据模型
  */
-- (void)didSelectTipEmoji:(MMEmoji *)emoji;
+- (void)didSelectTipEmoji:(nonnull MMEmoji *)emoji;
 
 /**
  *  点击表情小表情键盘上发送按钮的代理
  *
  *  @param input 输入框， 如UITextView, UITextField...
  */
-- (void)didSendWithInput:(UIResponder<UITextInput> *)input;
+- (void)didSendWithInput:(nonnull UIResponder<UITextInput> *)input;
 
 /**
  *  点击输入框切换表情按钮状态
@@ -61,9 +79,19 @@ typedef enum
 @interface MMEmotionCentre : NSObject
 
 /**
+ *  SDK区域
+ */
+@property (nonatomic) MMRegion sdkRegion;
+
+/**
+ *  SDK语言
+ */
+@property (nonatomic) MMLanguage sdkLanguage;
+
+/**
  *  表情中心的代理， 表情mm SDK数据的主要输出口
  */
-@property (nonatomic, weak) id<MMEmotionCentreDelegate> delegate;
+@property (nonatomic, weak, nullable) id<MMEmotionCentreDelegate> delegate;
 
 /**
  *  SDK模式 默认IM
@@ -80,14 +108,14 @@ typedef enum
  *
  *  @return 表情中心的单例
  */
-+ (instancetype)defaultCentre;
++ (nonnull instancetype)defaultCentre;
 
 /**
  *  获得当前SDK的版本
  *
  *  @return 目前SDK的版本
  */
-- (NSString *)version;
+- (nonnull NSString *)version;
 
 /**
  *  表情mm SDK初始化
@@ -95,14 +123,14 @@ typedef enum
  *  @param appId  表情mm分配给你的app的唯一标识符
  *  @param secret 表情mm分配给你的app的密匙
  */
-- (void)setAppId:(NSString *)appId secret:(NSString *)secret;
+- (void)setAppId:(nonnull NSString *)appId secret:(nonnull NSString *)secret;
 
 /**
  *  开发者可以用setUserId方法设置App UserId，以便在后台统计时跟踪追溯单个用户的表情使用情况
  *
  *  @param userId 用户的唯一标识符
  */
-- (void)setUserId:(NSString *)userId;
+- (void)setUserId:(nullable NSString *)userId;
 
 
 /**
@@ -110,7 +138,7 @@ typedef enum
  *
  *  @param theme SDK开发的Theme的对象， 提供了可更改的界面属性, 参考MMTheme.h
  */
-- (void)setTheme:(MMTheme *)theme;
+- (void)setTheme:(nonnull MMTheme *)theme;
 
 
 /**
@@ -123,7 +151,7 @@ typedef enum
  *
  *  @param input 输入框，添加表情键盘的目标
  */
-- (void)attachEmotionKeyboardToInput:(UIResponder<UITextInput> *)input;
+- (void)attachEmotionKeyboardToInput:(nonnull UIResponder<UITextInput> *)input;
 
 /**
  *  添加表情联想， 当在输入框中输入字符是，SDK将寻找与之相匹配的表情， 然后显示出来
@@ -131,8 +159,8 @@ typedef enum
  *  @param attchedView 显示的表情将在这个试图的上面
  *  @param input       输入框
  */
-- (void)shouldShowShotcutPopoverAboveView:(UIView *)attchedView
-                                withInput:(UIResponder<UITextInput> *)input;
+- (void)shouldShowShotcutPopoverAboveView:(nonnull UIView *)attchedView
+                                withInput:(nonnull UIResponder<UITextInput> *)input;
 
 
 /**
@@ -142,7 +170,7 @@ typedef enum
  *
  *  @return 表情的细节试图
  */
-- (UIViewController *)controllerForEmotionCode:(NSString *)emojiCode;
+- (nonnull UIViewController *)controllerForEmotionCode:(nonnull NSString *)emojiCode;
 
 /**
  *  通过表情的唯一标识获得，MMEmoji对象
@@ -152,8 +180,8 @@ typedef enum
  *  @param completionHandler 完成的回调，包含MMEmoji对象的集合或者error对象
  */
 - (void)fetchEmojisByType:(MMFetchType)fetchType
-                    codes:(NSArray *)emojiCodes
-        completionHandler:(void (^)(NSArray *emojis))completionHandler;
+                    codes:(nonnull NSArray *)emojiCodes
+        completionHandler:(void (^ __nullable )(NSArray * __nullable emojis))completionHandler;
 
 
 /**

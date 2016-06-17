@@ -30,6 +30,11 @@ static MMEmoji *s_placeholderEmoji = nil;
 }
 
 + (NSArray*)extDataWithEmojiCode:(NSString*)emojiCode {
+    //---兼容IM老版本安卓消息格式 如不需要可删除---
+    if ([MMEmotionCentre defaultCentre].sdkMode == MMSDKModeIM) {
+        return @[@[emojiCode, [NSString stringWithFormat:@"%d", EmojiTypeSmall]]];
+    }
+    //---end---
     return @[@[emojiCode, [NSString stringWithFormat:@"%d", [MMTextParser emojiTypeWithEmojiCode:emojiCode]]]];
 }
 
@@ -89,8 +94,7 @@ static MMEmoji *s_placeholderEmoji = nil;
                                              options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
                                              context:nil].size;
     
-//    return CGRectIntegral(CGRectMake(0, 0, sizeToFit.width + 10, sizeToFit.height + 16)).size;
-    return CGRectIntegral(CGRectMake(0, 0, sizeToFit.width + 10, sizeToFit.height)).size;
+    return CGRectIntegral(CGRectMake(0, 0, sizeToFit.width + 10, sizeToFit.height + 16)).size;
 }
 
 + (CGSize)sizeForTextWithText:(NSString *)text
@@ -99,7 +103,7 @@ static MMEmoji *s_placeholderEmoji = nil;
     CGSize size = CGSizeZero;
     size = [text boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;
     size.width += 10;
-//    size.height += 16;
+    size.height += 16;
     
     return size;
 }

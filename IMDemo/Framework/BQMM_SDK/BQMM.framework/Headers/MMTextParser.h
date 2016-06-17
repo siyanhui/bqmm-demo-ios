@@ -23,8 +23,8 @@ typedef enum
 *  @param text             mmtext
 *  @param completionHandler 完成的回调，包含MMEmoji,text对象的集合或者error对象
 */
-+ (void)parseMMText:(NSString *)text
-  completionHandler:(void(^)(NSArray *textImgArray))completionHandler;
++ (void)parseMMText:(nullable NSString *)text
+  completionHandler:(void(^__nullable)(NSArray * __nullable textImgArray))completionHandler;
 
 /**
  *  从text中解析本地已下载的Emoji
@@ -32,8 +32,8 @@ typedef enum
  *  @param text              mmtext
  *  @param completionHandler 完成的回调，包含MMEmoji, text对象的集合或者error对象
  */
-+ (void)localParseMMText:(NSString *)text
-       completionHandler:(void(^)(NSArray *textImgArray))completionHandler;
++ (void)localParseMMText:(nullable NSString *)text
+       completionHandler:(void(^__nullable)(NSArray * __nullable textImgArray))completionHandler;
 
 /**
  *  从mmText中检查出符合emojiCode格式的result数组
@@ -42,7 +42,7 @@ typedef enum
  *
  *  @return         符合emojiCode的格式result数组
  */
-+ (NSArray<NSTextCheckingResult *> *)findEmojicodesResultFromMMText:(NSString *)mmText;
++ (nullable NSArray<NSTextCheckingResult *> *)findEmojicodesResultFromMMText:(nullable NSString *)mmText;
 
 /**
  *  根据emojiCode获取是大表情还是小表情
@@ -51,6 +51,6 @@ typedef enum
  *
  *  @return EmojiType
  */
-+ (EmojiType)emojiTypeWithEmojiCode:(NSString*)emojiCode;
++ (EmojiType)emojiTypeWithEmojiCode:(nullable NSString*)emojiCode;
 
 @end

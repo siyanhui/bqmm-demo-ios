@@ -5,9 +5,8 @@
 //  Created by ceo on 11/9/15.
 //  Copyright © 2015 siyanhui. All rights reserved.
 //
-
+#include <CoreText/CoreText.h>
 #import "MMTextView.h"
-#import <CoreText/CoreText.h>
 #import <BQMM/BQMM.h>
 #import "MMTextParser+ExtData.h"
 #import "MMTextAttachment.h"
@@ -56,16 +55,6 @@
 
 #pragma mark - setter/getter
 
-- (UIImage *)getEmptyImage {
-    static UIImage *emptyImage = nil;
-    if (!emptyImage) {
-        if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
-            emptyImage = [UIImage imageNamed:@"empty"];
-        }
-    }
-    return emptyImage;
-}
-
 - (void)setMmFont:(UIFont *)mmFont {
     _mmFont = mmFont;
     [self setFont:mmFont];
@@ -74,11 +63,6 @@
 - (void)setMmTextColor:(UIColor *)mmTextColor {
     _mmTextColor = mmTextColor;
     [self setTextColor:mmTextColor];
-}
-
-- (void)setMmText:(NSString *)mmText {
-    [self clearImageViewsCover];
-    [super setMmText:mmText];
 }
 
 - (void)setPlaceholderTextWithData:(NSArray*)extData {
@@ -97,6 +81,7 @@
             {
                 NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];
                 placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//固定20X20
+                placeholderAttachment.image = [self placeHolderImage];
                 [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];
             }
                 break;
@@ -105,6 +90,7 @@
             {
                 NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];
                 placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//固定60X60
+                placeholderAttachment.image = [self placeHolderImage];
                 [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];
             }
                 break;
@@ -127,28 +113,26 @@
 }
 
 - (void)setMmTextData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {
-
     [self setPlaceholderTextWithData:extData];
     [self updateAttributeTextWithData:extData completionHandler:completionHandler];
-
+    
     [self clearImageViewsCover];
-    UIImage *emptyImage = [self getEmptyImage];
     [self.attributedText enumerateAttribute:NSAttachmentAttributeName
                                     inRange:NSMakeRange(0, [self.attributedText length])
                                     options:0
                                  usingBlock:^(id value, NSRange range, BOOL * stop) {
                                      if ([value isKindOfClass:[MMTextAttachment class]]) {
-                                         MMTextAttachment *attachment = (MMTextAttachment *)value;
-                                         [self.attachmentRanges addObject:[NSValue valueWithRange:range]];
-                                         [self.attachments addObject:value];
-                                         UIImageView *imgView = [[UIImageView alloc] init];
-                                         imgView.image = attachment.emoji.emojiImage;
-                                         attachment.image = emptyImage;
-                                         [self.imageViews addObject:imgView];
+                                         if ([value isKindOfClass:[MMTextAttachment class]]) {
+                                             MMTextAttachment *attachment = (MMTextAttachment *)value;
+                                             [self.attachmentRanges addObject:[NSValue valueWithRange:range]];
+                                             [self.attachments addObject:value];
+                                             UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
+                                             attachment.image = nil;
+                                             [self.imageViews addObject:imgView];
+                                         }
                                      }
                                  }];
 }
-
 
 /****************************MMTextView处理URL相关事件*******************************/
 - (void)setURLAttributes {
@@ -391,7 +375,6 @@
     
     //
     [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeAll codes:codes completionHandler:^(NSArray *emojis) {
-
         NSMutableAttributedString *mAStr = [[NSMutableAttributedString alloc] init];
         for (MMEmoji *emoji in emojis) {
             NSInteger objIndex = [textImgArray indexOfObject:emoji.emojiCode];
@@ -400,12 +383,13 @@
                 objIndex = [textImgArray indexOfObject:emoji.emojiCode];
             }
         }
-        UIImage *emptyImage = [self getEmptyImage];
         for (id obj in textImgArray) {
             if ([obj isKindOfClass:[MMEmoji class]]) {
                 MMTextAttachment *attachment = [[MMTextAttachment alloc] init];
                 attachment.emoji = obj;
-                attachment.image = emptyImage;
+                if ([attachment.image.images count] > 1) {
+                    attachment.image = [attachment placeHolderImage];
+                }
                 [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
             } else {
                 [mAStr appendAttributedString:[[NSAttributedString alloc] initWithString:obj]];
@@ -457,6 +441,19 @@
     [self.imageViews removeAllObjects];
 }
 
+- (UIImage *)placeHolderImage {
+    static UIImage *holderImage = nil;
+    if (holderImage == nil) {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:0.8 alpha:1].CGColor);
+        CGContextFillRect(context, CGRectMake(0, 0, 1, 1));
+        holderImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    return holderImage;
+}
+
 
 #pragma mark - Layout
 
@@ -466,12 +463,12 @@
         NSRange range = [self.attachmentRanges[i] rangeValue];
         MMTextAttachment *attachment = self.attachments[i];
         UIImageView *imgView = self.imageViews[i];
-        
+
         NSRange glyphRange = [self.layoutManager glyphRangeForCharacterRange:range actualCharacterRange:nil];
         CGRect rect = [self.layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:self.textContainer];
         rect.origin.x += self.textContainerInset.left;
         rect.origin.y += self.textContainerInset.top;
-        
+
         CGFloat originalY = CGRectGetMaxY(rect) - attachment.bounds.size.height;
         if(attachment.bounds.size.width == 20) {
             CGFloat lineHeight = self.mmFont.lineHeight;
