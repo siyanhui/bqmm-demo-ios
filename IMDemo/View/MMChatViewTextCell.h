@@ -7,7 +7,7 @@
 //
 
 #import "MMChatViewBaseCell.h"
-//BQMM集成
+//Integrate BQMM
 #import "MMTextView.h"
 
 @interface MMChatViewTextCell : MMChatViewBaseCell<MMTextViewDelegate>

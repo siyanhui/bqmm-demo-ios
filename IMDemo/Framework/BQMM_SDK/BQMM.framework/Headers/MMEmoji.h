@@ -11,36 +11,36 @@
 @interface MMEmoji : NSObject
 
 /**
- *  表情ID
+ *  emoji id
  */
 @property (nonatomic, copy, nullable) NSString *emojiId;
 
 /**
- *  表情名称
+ *  emoji name
  */
 @property (nonatomic, copy, nullable) NSString *emojiName;
 
 /**
- *  表情编码
+ *  emoji code
  */
 @property (nonatomic, copy, nullable) NSString *emojiCode;
 
 /**
- *  表情图片
+ *  emoji image
  */
 @property (nonatomic, strong, nullable) UIImage *emojiImage;
 
 /**
- *  图片数据
+ *  emoji data
  */
 @property (nonatomic, strong, nullable) NSData *emojiData;
 
 /**
- *  表情包ID
+ *  package id
  */
 @property (nonatomic, copy, nullable) NSString *packageId;
 /**
- *  是否小表情
+ *  is small emoji?
  */
 @property (nonatomic, assign) BOOL isEmoji;
 

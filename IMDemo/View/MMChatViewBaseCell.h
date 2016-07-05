@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MMMessage.h"
-//BQMM集成
+//Integrate BQMM
 #import <BQMM/BQMM.h>
 #import "MMTextParser+ExtData.h"
 
@@ -18,11 +18,6 @@
 #define CONTENT_BOTTOM_MARGIN 6
 #define CONTENT_LEFT_MARGIN 6
 #define CONTENT_RIGHT_MARGIN 14
-
-#define TEXT_MESG_TYPE @"txt_msgType"  //文字消息类型key的名称
-#define TEXT_MESG_FACE_TYPE @"facetype" //大表情消息类型
-#define TEXT_MESG_EMOJI_TYPE @"emojitype" //图文混排消息类型
-#define TEXT_MESG_DATA @"msg_data"  //文字消息扩展内容
 
 @protocol RCMessageCellDelegate;
 
@@ -48,31 +43,31 @@
 @optional
 
 /*!
- 点击Cell内容的回调
+ the delegate method handles `tap` of message cell
  
- @param model 消息Cell的数据模型
+ @param model message model
  */
 - (void)didTapChatViewCell:(MMMessage *)messageModel;
 
 /**
- *  长按Cell的回调
+ *  the delegate method handles `long press` of message cell
  *
- *  @param messageModel cell对应的消息model
- *  @param view         显示消息内容的view
+ *  @param messageModel message model
+ *  @param view         the view that holds the message
  */
 - (void)didLongPressChatViewCell:(MMMessage *)messageModel inView:(UIView *)view;
 
 /**
- *  点击cell中的url回调
+ *  the delegate method handles `tap` of url in message cell
  *
- *  @param url 消息中包含的url字符窜
+ *  @param url   the url string
  */
 - (void)didTapUrlInMessageCell:(NSString *)url;
 
 /**
- *  点击消息中电话号码的回调
+ *  the delegate method handles `tap` of phone number in message cell
  *
- *  @param phoneNumber 电话号码
+ *  @param phoneNumber    phone number
  */
 - (void)didTapPhoneNumberInMessageCell:(NSString *) phoneNumber;
 @end

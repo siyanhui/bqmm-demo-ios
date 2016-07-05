@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//BQMM集成
+//Integrate BQMM
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
 #define INPUT_TOOL_BAR_HEIGHT 50.0f
@@ -16,7 +16,7 @@
 
 @class MMEmoji;
 /*!
- 输入工具栏delegate
+ input toolbar delegate
  */
 @protocol MMInputToolBarViewDelegate;
 
@@ -28,7 +28,7 @@
 @property(strong, nonatomic) UIButton *emojiButton;
 
 /*!
- 文本输入框的高度
+ the height of inputTextView
  */
 @property(assign, nonatomic) float inputTextViewHeight;
 
@@ -39,47 +39,43 @@
 @optional
 
 /*!
- 键盘即将显示的回调
+ keyboard will show with frame delegate method
  
- @param keyboardFrame 键盘最终需要显示的Frame
+ @param keyboardFrame  the Frame of keyboard
  */
 - (void)keyboardWillShowWithFrame:(CGRect)keyboardFrame;
 
 /*!
- 键盘即将隐藏的回调
+ keyboard will hide delegate method
  */
 - (void)keyboardWillHide;
 
-//BQMM集成
+//Integrate BQMM
 /*!
- 点击键盘Return按钮的回调
+ the delegate method handles the click of `return` key in keyboard
  
- @param inputView    当前输入工具栏
- @param text         当前输入框的文本内容
+ @param inputView    MMInputToolBarView
+ @param text         the content in inputView
  */
 - (void)didTouchKeyboardReturnKey:(MMInputToolBarView *)inputView text:(NSString *)text;
 
 /*!
- 点击表情按钮的回调
+ the delegate method handles the click of emoji button
  
- @param sender 表情按钮
+ @param sender  emoji button
  */
 - (void)didTouchEmojiButton:(UIButton *)sender;
 
 /**
- *  发送表情mm大表情
+ *  the delegate method handles send big emoji message
  *
- *  @param emoji 表情对象
+ *  @param emoji MMemoji object
  */
 - (void)didSendMMFace:(MMEmoji *)emoji;
 
-/**
- *  点击输入框触发切换键盘
- */
-- (void)didTouchMMTextViewOverLay;
 
 /**
- *  toolBar的高度变化回调
+ *  the delegate method handles the change of toolbar height
  *
  *  @param height
  */

@@ -8,19 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-#define TEXT_MESG_TYPE @"txt_msgType"  //文字消息类型key的名称
-#define TEXT_MESG_FACE_TYPE @"facetype" //大表情消息类型
-#define TEXT_MESG_EMOJI_TYPE @"emojitype" //图文混排消息类型
-#define TEXT_MESG_DATA @"msg_data"  //文字消息扩展内容
+#define TEXT_MESG_TYPE @"txt_msgType"  //key for text message
+#define TEXT_MESG_FACE_TYPE @"facetype" //key for big emoji type
+#define TEXT_MESG_EMOJI_TYPE @"emojitype" //key for photo-text message
+#define TEXT_MESG_DATA @"msg_data"  //key for ext data of message
 
 typedef NS_ENUM(NSUInteger, MMMessageType) {
     /*!
-     文字消息
+     Text message or photo-text message
      */
     MMMessageTypeText = 1,
     
     /*!
-     大表情消息
+     big emoji message
      */
     MMMessageTypeBigEmoji = 2,
     
@@ -31,23 +31,23 @@ typedef NS_ENUM(NSUInteger, MMMessageType) {
 @property(nonatomic, assign) MMMessageType messageType;
 
 /**
- *  消息文字内容
+ *  text content of message
  */
 @property(nonatomic, strong) NSString *messageContent;
 /**
- *  消息扩展信息
+ *  the ext of message
  */
 @property(nonatomic, strong) NSDictionary *messageExtraInfo;
 
 
 /**
- *  初始化消息Model
+ *  initialize message Model
  *
- *  @param messageType      消息类型
- *  @param messageContent   消息文字内容
- *  @param messageExtraInfo 消息的扩展信息
+ *  @param messageType      the type of message
+ *  @param messageContent   the text content of mesage
+ *  @param messageExtraInfo the ext of message
  *
- *  @return 消息Model
+ *  @return message Model
  */
 - (id)initWithMessageType:(MMMessageType)messageType messageContent:(NSString *)messageContent messageExtraInfo:(NSDictionary *)messageExtraInfo;
 

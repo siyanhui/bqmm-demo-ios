@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-//BQMM集成
+//Integrate BQMM
 #import <BQMM/BQMM.h>
 
 #import "MMChatViewController.h"
@@ -23,15 +23,16 @@
     // Override point for customization after application launch.
     
     
-    //BQMM集成  初始化
+    //Integrate BQMM    initialize
     NSString *appId = @"yourAppId";
     NSString *secret = @"yourAppSecret";
     [[MMEmotionCentre defaultCentre] setAppId:appId
                                        secret:secret];
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
+    [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageEnglish;
     
     MMChatViewController *VC = [[MMChatViewController alloc] init];
-    VC.title = @"聊天页面";
+    VC.title = @"chat view";
     UINavigationController *rootNavi = [[UINavigationController alloc] initWithRootViewController:VC];
     self.window.rootViewController = rootNavi;
     
@@ -49,7 +50,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    //BQMM集成
+    //Integrate BQMM
     [[MMEmotionCentre defaultCentre] clearSession];
 }
 

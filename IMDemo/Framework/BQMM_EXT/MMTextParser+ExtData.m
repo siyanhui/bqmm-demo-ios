@@ -30,11 +30,7 @@ static MMEmoji *s_placeholderEmoji = nil;
 }
 
 + (NSArray*)extDataWithEmojiCode:(NSString*)emojiCode {
-    //---兼容IM老版本安卓消息格式 如不需要可删除---
-    if ([MMEmotionCentre defaultCentre].sdkMode == MMSDKModeIM) {
-        return @[@[emojiCode, [NSString stringWithFormat:@"%d", EmojiTypeSmall]]];
-    }
-    //---end---
+    
     return @[@[emojiCode, [NSString stringWithFormat:@"%d", [MMTextParser emojiTypeWithEmojiCode:emojiCode]]]];
 }
 
@@ -69,7 +65,7 @@ static MMEmoji *s_placeholderEmoji = nil;
             case EmojiTypeSmall:
             {
                 NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];
-                placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//固定20X20
+                placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//fixed size: 20X20
                 [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];
             }
                 break;
@@ -77,7 +73,7 @@ static MMEmoji *s_placeholderEmoji = nil;
             case EmojiTypeBig:
             {
                 NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];
-                placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//固定60X60
+                placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//fixed size: 60X60
                 [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];
             }
                 break;
@@ -85,11 +81,12 @@ static MMEmoji *s_placeholderEmoji = nil;
             default:
                 break;
         }
-    }    //字体
+    }
+    
     if (font) {
         [attrStr addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, attrStr.length)];
     }
-    // 计算文本的大小
+    
     CGSize sizeToFit = [attrStr boundingRectWithSize:CGSizeMake(maximumTextWidth, MAXFLOAT)
                                              options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
                                              context:nil].size;

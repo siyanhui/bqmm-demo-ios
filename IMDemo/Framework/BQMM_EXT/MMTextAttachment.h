@@ -12,14 +12,14 @@
 @interface MMTextAttachment : NSTextAttachment
 
 /**
- *  表情对象
+ *  the emoji that holds the image of attachement
  */
 @property (nonatomic, strong) MMEmoji *emoji;
 
 /**
- *  gif表情图片第一帧，大小为100px*100px，可用于编辑富文本消息时的gif表情显示
- *
- *  @return 图片
+ *  the first frame of the gif which can be showed in the input control
+ *  the size of the placeholder image is 100X100
+ *  @return placeholder image
  */
 - (UIImage *)placeHolderImage;
 

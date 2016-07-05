@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSMutableArray *attachmentRanges;
 @property (nonatomic, strong) NSMutableArray *attachments;
 @property (nonatomic, strong) NSMutableArray *imageViews;
+@property (nonatomic, assign) NSInteger task;
 
 @end
 
@@ -42,6 +43,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _disableActionMenu = NO;
+        _task = 0;
     }
     return self;
 }
@@ -80,7 +82,7 @@
             case EmojiTypeSmall:
             {
                 NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];
-                placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//固定20X20
+                placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//fixed size: 20X20
                 placeholderAttachment.image = [self placeHolderImage];
                 [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];
             }
@@ -89,7 +91,7 @@
             case EmojiTypeBig:
             {
                 NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];
-                placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//固定60X60
+                placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//fixed size: 60X60
                 placeholderAttachment.image = [self placeHolderImage];
                 [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];
             }
@@ -108,256 +110,51 @@
     self.attributedText = mAStr;
 }
 
+- (void)setText:(NSString *)text {
+    [self clearImageViewsCover];
+    [super setText:text];
+}
+
+- (void)setMmText:(NSString *)mmText {
+    self.task++;
+    self.text = mmText;
+
+}
+
 - (void)setMmTextData:(NSArray *)extData {
+    self.task++;
     [self setMmTextData:extData completionHandler:nil];
 }
 
 - (void)setMmTextData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {
     [self setPlaceholderTextWithData:extData];
-    [self updateAttributeTextWithData:extData completionHandler:completionHandler];
-    
+    __weak MMTextView* weakSelf = self;
     [self clearImageViewsCover];
-    [self.attributedText enumerateAttribute:NSAttachmentAttributeName
-                                    inRange:NSMakeRange(0, [self.attributedText length])
-                                    options:0
-                                 usingBlock:^(id value, NSRange range, BOOL * stop) {
-                                     if ([value isKindOfClass:[MMTextAttachment class]]) {
+    [self updateAttributeTextWithData:extData completionHandler:^{
+        [weakSelf.attributedText enumerateAttribute:NSAttachmentAttributeName
+                                        inRange:NSMakeRange(0, [self.attributedText length])
+                                        options:0
+                                     usingBlock:^(id value, NSRange range, BOOL * stop) {
                                          if ([value isKindOfClass:[MMTextAttachment class]]) {
-                                             MMTextAttachment *attachment = (MMTextAttachment *)value;
-                                             [self.attachmentRanges addObject:[NSValue valueWithRange:range]];
-                                             [self.attachments addObject:value];
-                                             UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
-                                             attachment.image = nil;
-                                             [self.imageViews addObject:imgView];
+                                             if ([value isKindOfClass:[MMTextAttachment class]]) {
+                                                 MMTextAttachment *attachment = (MMTextAttachment *)value;
+                                                 [weakSelf.attachmentRanges addObject:[NSValue valueWithRange:range]];
+                                                 [weakSelf.attachments addObject:value];
+                                                 UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
+                                                 attachment.image = nil;
+                                                 [weakSelf.imageViews addObject:imgView];
+                                             }
                                          }
-                                     }
-                                 }];
-}
+                                     }];
+        [weakSelf setNeedsLayout];
 
-/****************************MMTextView处理URL相关事件*******************************/
-- (void)setURLAttributes {
-    //检测设置URL相关的attribute
-    NSError *error = nil;
-    MMDataDetector *dataDetector = [[MMDataDetector alloc] initWithTypes:NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber error:&error];
-    _urlMatches = [dataDetector matchesInString:self.attributedText.string options:0 range:NSMakeRange(0, self.attributedText.string.length)];
-    
-    NSMutableAttributedString * attributedString = [self.attributedText mutableCopy];
-    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:0];
-    [attributedString addAttribute:NSParagraphStyleAttributeName
-                             value:paragraphStyle
-                             range:NSMakeRange(0, self.attributedText.string.length)];
-    [self setAttributedText:attributedString];
-    
-    [self highlightLinksWithIndex:NSNotFound];
-    //添加点击手势
-    self.userInteractionEnabled = true;
-    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    [tapGestureRecognizer setDelegate:self];
-    [self addGestureRecognizer:tapGestureRecognizer];
-}
-
-- (void)highlightLinksWithIndex:(CFIndex)index {
-    
-    NSMutableAttributedString* attributedString = [self.attributedText mutableCopy];
-    //重置颜色
-    [attributedString addAttribute:NSForegroundColorAttributeName value:self.textColor range:NSMakeRange(0, attributedString.string.length)];
-    for (NSTextCheckingResult *match in _urlMatches) {
-        
-        if ([match resultType] == NSTextCheckingTypeLink || [match resultType] == NSTextCheckingTypePhoneNumber) {
-            
-            NSRange matchRange = [match range];
-            
-            if ([self isIndex:index inRange:matchRange]) {
-                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:matchRange];
-            }
-            else {
-                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:matchRange];
-            }
-            
-            [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:matchRange];
+        if (completionHandler) {
+            completionHandler();
         }
-    }
-    
-    self.attributedText = attributedString;
+    }];
 }
 
-- (BOOL)isIndex:(CFIndex)index inRange:(NSRange)range
-{
-    return index > range.location && index < range.location+range.length;
-}
-
-- (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
-    if ([gestureRecognizer state] != UIGestureRecognizerStateEnded) {
-        return;
-    }
-    NSTextCheckingResult *result = [self linkAtPoint:[gestureRecognizer locationInView:self]];
-    if (!result) {
-        if (self.delegate!=nil) {
-            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didTapTextView:)]) {
-                [self.clickActionDelegate mmTextView:self didTapTextView:self.text];
-            }
-        }
-        return;
-    }
-    
-    switch (result.resultType) {
-        case NSTextCheckingTypeLink:
-            NSLog(@"link");
-            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didSelectLinkWithURL:)]) {
-                [self.clickActionDelegate mmTextView:self didSelectLinkWithURL:result.URL];
-            }
-            break;
-        case NSTextCheckingTypePhoneNumber:
-            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didSelectLinkWithPhoneNumber:)]) {
-                [self.clickActionDelegate mmTextView:self didSelectLinkWithPhoneNumber:result.phoneNumber];
-            }
-            NSLog(@"tele");
-            break;
-        default:
-            break;
-    }
-}
-
-- (NSTextCheckingResult *)linkAtPoint:(CGPoint)p {
-    CFIndex idx = [self characterIndexAtPoint:p];
-    return [self linkAtCharacterIndex:idx];
-}
-
-- (NSTextCheckingResult *)linkAtCharacterIndex:(CFIndex)idx {
-    for (NSTextCheckingResult *result in _urlMatches) {
-        NSRange range = result.range;
-        if ((CFIndex)range.location <= idx && idx <= (CFIndex)(range.location + range.length - 1)) {
-            return result;
-        }
-    }
-    
-    return nil;
-}
-
-- (CFIndex)characterIndexAtPoint:(CGPoint)point {
-    
-    NSMutableAttributedString *optimizedAttributedText = [self.attributedText mutableCopy];
-    
-    // use label's font and lineBreakMode properties in case the attributedText does not contain such attributes
-    [self.attributedText
-     enumerateAttributesInRange:NSMakeRange(0, [self.attributedText length])
-     options:0
-     usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-         
-         if (!attrs[(NSString *)kCTFontAttributeName]) {
-             
-             [optimizedAttributedText addAttribute:(NSString *)kCTFontAttributeName
-                                             value:self.font
-                                             range:NSMakeRange(0, [self.attributedText length])];
-         }
-     }];
-    
-    // modify kCTLineBreakByTruncatingTail lineBreakMode to kCTLineBreakByWordWrapping
-    [optimizedAttributedText
-     enumerateAttribute:(NSString *)kCTParagraphStyleAttributeName
-     inRange:NSMakeRange(0, [optimizedAttributedText length])
-     options:0
-     usingBlock:^(id value, NSRange range, BOOL *stop) {
-         
-         NSMutableParagraphStyle *paragraphStyle = [value mutableCopy];
-         
-         if ([paragraphStyle lineBreakMode] == kCTLineBreakByTruncatingTail) {
-             [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
-         }
-         
-         [optimizedAttributedText removeAttribute:(NSString *)kCTParagraphStyleAttributeName range:range];
-         [optimizedAttributedText addAttribute:(NSString *)kCTParagraphStyleAttributeName
-                                         value:paragraphStyle
-                                         range:range];
-     }];
-    
-    ////////
-    
-    if (!CGRectContainsPoint(self.bounds, point)) {
-        return NSNotFound;
-    }
-    
-    CGRect textRect = [self frame];
-    
-    if (!CGRectContainsPoint(textRect, point)) {
-        return NSNotFound;
-    }
-    
-    // Offset tap coordinates by textRect origin to make them relative to the origin of frame
-    point = CGPointMake(point.x - textRect.origin.x, point.y - textRect.origin.y);
-    // Convert tap coordinates (start at top left) to CT coordinates (start at bottom left)
-    point = CGPointMake(point.x, textRect.size.height - point.y);
-    
-    //////
-    
-    CTFramesetterRef framesetter =
-    CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)optimizedAttributedText);
-    
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathAddRect(path, NULL, textRect);
-    
-    CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, [self.attributedText length]), path, NULL);
-    
-    if (frame == NULL) {
-        CFRelease(path);
-        return NSNotFound;
-    }
-    
-    CFArrayRef lines = CTFrameGetLines(frame);
-    
-    NSInteger numberOfLines = CFArrayGetCount(lines);
-    
-    // DebugLog(@"num lines: %d", numberOfLines);
-    
-    if (numberOfLines == 0) {
-        CFRelease(frame);
-        CFRelease(path);
-        return NSNotFound;
-    }
-    
-    NSUInteger idx = NSNotFound;
-    
-    CGPoint lineOrigins[numberOfLines];
-    CTFrameGetLineOrigins(frame, CFRangeMake(0, numberOfLines), lineOrigins);
-    
-    for (CFIndex lineIndex = 0; lineIndex < numberOfLines; lineIndex++) {
-        
-        CGPoint lineOrigin = lineOrigins[lineIndex];
-        CTLineRef line = CFArrayGetValueAtIndex(lines, lineIndex);
-        
-        // Get bounding information of line
-        CGFloat ascent, descent, leading, width;
-        width = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
-        CGFloat yMin = floor(lineOrigin.y - descent);
-        CGFloat yMax = ceil(lineOrigin.y + ascent);
-        
-        // Check if we've already passed the line
-        if (point.y > yMax) {
-            break;
-        }
-        
-        // Check if the point is within this line vertically
-        if (point.y >= yMin) {
-            
-            // Check if the point is within this line horizontally
-            if (point.x >= lineOrigin.x && point.x <= lineOrigin.x + width) {
-                
-                // Convert CT coordinates to line-relative coordinates
-                CGPoint relativePoint = CGPointMake(point.x - lineOrigin.x, point.y - lineOrigin.y);
-                idx = CTLineGetStringIndexForPosition(line, relativePoint);
-                
-                break;
-            }
-        }
-    }
-    
-    CFRelease(frame);
-    CFRelease(path);
-    
-    return idx;
-}
-/****************************MMTextView处理URL相关事件*******************************/
+#pragma mark - private
 
 - (void)updateAttributeTextWithData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {
     NSMutableArray *codes = [NSMutableArray array];
@@ -372,9 +169,18 @@
         }
         [textImgArray addObject:str];
     }
-    
-    //
+
+    __block NSInteger task = _task;
+    __weak MMTextView *weakSelf = self;
     [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeAll codes:codes completionHandler:^(NSArray *emojis) {
+        __strong MMTextView *tempSelf = weakSelf;
+        if (!weakSelf) {
+            return;
+        }
+        if (task != tempSelf.task) {
+            return;
+        }
+
         NSMutableAttributedString *mAStr = [[NSMutableAttributedString alloc] init];
         for (MMEmoji *emoji in emojis) {
             NSInteger objIndex = [textImgArray indexOfObject:emoji.emojiCode];
@@ -395,13 +201,13 @@
                 [mAStr appendAttributedString:[[NSAttributedString alloc] initWithString:obj]];
             }
         }
-        if (self.mmFont) {
-            [mAStr addAttribute:NSFontAttributeName value:self.mmFont range:NSMakeRange(0, mAStr.length)];
+        if (weakSelf.mmFont) {
+            [mAStr addAttribute:NSFontAttributeName value:weakSelf.mmFont range:NSMakeRange(0, mAStr.length)];
         }
-        if (self.mmTextColor) {
-            [mAStr addAttribute:NSForegroundColorAttributeName value:self.mmTextColor range:NSMakeRange(0, mAStr.length)];
+        if (weakSelf.mmTextColor) {
+            [mAStr addAttribute:NSForegroundColorAttributeName value:weakSelf.mmTextColor range:NSMakeRange(0, mAStr.length)];
         }
-        self.attributedText = mAStr;
+        weakSelf.attributedText = mAStr;
         if (completionHandler) {
             completionHandler();
         }
@@ -428,8 +234,6 @@
     }
     return _imageViews;
 }
-
-#pragma mark - private
 
 - (void)clearImageViewsCover {
     [self.attachmentRanges removeAllObjects];
@@ -488,6 +292,203 @@
 
 - (void)copy:(id)sender {
     [UIPasteboard generalPasteboard].string = [self mmTextWithRange:self.selectedRange];
+}
+
+#pragma mark - about url and phone number
+
+- (void)setURLAttributes {
+    //search the content of MMtextView for URL and Phone number and set `link attribute` on them
+    NSError *error = nil;
+    MMDataDetector *dataDetector = [[MMDataDetector alloc] initWithTypes:NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber error:&error];
+    _urlMatches = [dataDetector matchesInString:self.attributedText.string
+                                        options:0
+                                          range:NSMakeRange(0, self.attributedText.string.length)];
+
+    NSMutableAttributedString * attributedString = [self.attributedText mutableCopy];
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:0];
+    [attributedString addAttribute:NSParagraphStyleAttributeName
+                             value:paragraphStyle
+                             range:NSMakeRange(0, self.attributedText.string.length)];
+    [self setAttributedText:attributedString];
+
+    [self highlightLinksWithIndex:NSNotFound];
+    //add tap gesture
+    self.userInteractionEnabled = true;
+    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [tapGestureRecognizer setDelegate:self];
+    [self addGestureRecognizer:tapGestureRecognizer];
+}
+
+- (void)highlightLinksWithIndex:(CFIndex)index {
+    NSMutableAttributedString* attributedString = [self.attributedText mutableCopy];
+    [attributedString addAttribute:NSForegroundColorAttributeName
+                             value:self.textColor
+                             range:NSMakeRange(0, attributedString.string.length)];
+    for (NSTextCheckingResult *match in _urlMatches) {
+        if ([match resultType] == NSTextCheckingTypeLink || [match resultType] == NSTextCheckingTypePhoneNumber) {
+            NSRange matchRange = [match range];
+            if ([self isIndex:index inRange:matchRange]) {
+                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:matchRange];
+            }
+            else {
+                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:matchRange];
+            }
+            [attributedString addAttribute:NSUnderlineStyleAttributeName
+                                     value:[NSNumber numberWithInteger:NSUnderlineStyleSingle]
+                                     range:matchRange];
+        }
+    }
+
+    self.attributedText = attributedString;
+}
+
+- (BOOL)isIndex:(CFIndex)index inRange:(NSRange)range {
+    return index > range.location && index < range.location+range.length;
+}
+
+- (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer state] != UIGestureRecognizerStateEnded) {
+        return;
+    }
+    NSTextCheckingResult *result = [self linkAtPoint:[gestureRecognizer locationInView:self]];
+    if (!result) {
+        return;
+    }
+
+    switch (result.resultType) {
+        case NSTextCheckingTypeLink:
+            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didSelectLinkWithURL:)]) {
+                [self.clickActionDelegate mmTextView:self didSelectLinkWithURL:result.URL];
+            }
+            break;
+        case NSTextCheckingTypePhoneNumber:
+            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didSelectLinkWithPhoneNumber:)]) {
+                [self.clickActionDelegate mmTextView:self didSelectLinkWithPhoneNumber:result.phoneNumber];
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+- (NSTextCheckingResult *)linkAtPoint:(CGPoint)p {
+    CFIndex idx = [self characterIndexAtPoint:p];
+    return [self linkAtCharacterIndex:idx];
+}
+
+- (NSTextCheckingResult *)linkAtCharacterIndex:(CFIndex)idx {
+    for (NSTextCheckingResult *result in _urlMatches) {
+        NSRange range = result.range;
+        if ((CFIndex)range.location <= idx && idx <= (CFIndex)(range.location + range.length - 1)) {
+            return result;
+        }
+    }
+    return nil;
+}
+
+- (CFIndex)characterIndexAtPoint:(CGPoint)point {
+    NSMutableAttributedString *optimizedAttributedText = [self.attributedText mutableCopy];
+    // use label's font and lineBreakMode properties in case the attributedText does not contain such attributes
+    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, [self.attributedText length])
+                                            options:0
+                                         usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+                                             if (!attrs[(NSString *)kCTFontAttributeName]) {
+
+                                                 [optimizedAttributedText addAttribute:(NSString *)kCTFontAttributeName
+                                                                                 value:self.font
+                                                                                 range:NSMakeRange(0, [self.attributedText length])];
+                                             }
+                                         }];
+
+    // modify kCTLineBreakByTruncatingTail lineBreakMode to kCTLineBreakByWordWrapping
+    [optimizedAttributedText enumerateAttribute:(NSString *)kCTParagraphStyleAttributeName
+                                        inRange:NSMakeRange(0, [optimizedAttributedText length])
+                                        options:0
+                                     usingBlock:^(id value, NSRange range, BOOL *stop) {
+                                         NSMutableParagraphStyle *paragraphStyle = [value mutableCopy];
+
+                                         if ([paragraphStyle lineBreakMode] == kCTLineBreakByTruncatingTail) {
+                                             [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+                                         }
+
+                                         [optimizedAttributedText removeAttribute:(NSString *)kCTParagraphStyleAttributeName range:range];
+                                         [optimizedAttributedText addAttribute:(NSString *)kCTParagraphStyleAttributeName
+                                                                         value:paragraphStyle
+                                                                         range:range];
+                                     }];
+
+    if (!CGRectContainsPoint(self.bounds, point)) {
+        return NSNotFound;
+    }
+
+    CGRect textRect = [self frame];
+    if (!CGRectContainsPoint(textRect, point)) {
+        return NSNotFound;
+    }
+
+    // Offset tap coordinates by textRect origin to make them relative to the origin of frame
+    point = CGPointMake(point.x - textRect.origin.x, point.y - textRect.origin.y);
+    // Convert tap coordinates (start at top left) to CT coordinates (start at bottom left)
+    point = CGPointMake(point.x, textRect.size.height - point.y);
+
+    //////
+
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)optimizedAttributedText);
+
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, textRect);
+
+    CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, [self.attributedText length]), path, NULL);
+
+    if (frame == NULL) {
+        CFRelease(path);
+        return NSNotFound;
+    }
+
+    CFArrayRef lines = CTFrameGetLines(frame);
+    NSInteger numberOfLines = CFArrayGetCount(lines);
+    if (numberOfLines == 0) {
+        CFRelease(frame);
+        CFRelease(path);
+        return NSNotFound;
+    }
+
+    NSUInteger idx = NSNotFound;
+    CGPoint lineOrigins[numberOfLines];
+
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, numberOfLines), lineOrigins);
+    for (CFIndex lineIndex = 0; lineIndex < numberOfLines; lineIndex++) {
+        CGPoint lineOrigin = lineOrigins[lineIndex];
+        CTLineRef line = CFArrayGetValueAtIndex(lines, lineIndex);
+
+        // Get bounding information of line
+        CGFloat ascent, descent, leading, width;
+        width = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+        CGFloat yMin = floor(lineOrigin.y - descent);
+        CGFloat yMax = ceil(lineOrigin.y + ascent);
+
+        // Check if we've already passed the line
+        if (point.y > yMax) {
+            break;
+        }
+
+        // Check if the point is within this line vertically
+        if (point.y >= yMin) {
+            // Check if the point is within this line horizontally
+            if (point.x >= lineOrigin.x && point.x <= lineOrigin.x + width) {
+
+                // Convert CT coordinates to line-relative coordinates
+                CGPoint relativePoint = CGPointMake(point.x - lineOrigin.x, point.y - lineOrigin.y);
+                idx = CTLineGetStringIndexForPosition(line, relativePoint);
+                
+                break;
+            }
+        }
+    }
+    CFRelease(frame);
+    CFRelease(path);
+    return idx;
 }
 
 

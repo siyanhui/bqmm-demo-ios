@@ -14,44 +14,40 @@
 
 @property (nonatomic, weak) id <MMTextViewDelegate> clickActionDelegate;
 
-/*!
- 是否关闭菜单
- 
- @discussion 默认值为NO。
+/**
+ *  disable the action menu of the input control or not, default is NO.
  */
 @property(nonatomic, assign) BOOL disableActionMenu;
 
 /**
- *  字体
+ *  the font of MMTextView
  */
 @property (nonatomic,strong) UIFont *mmFont;
 /**
- *  字色
+ *  the text color of MMtextView
  */
 @property (nonatomic,strong) UIColor *mmTextColor;
 
 /**
- *  设定视图文本，需要显示表情的地方用占位图片代替
+ *  set data of MMTextView
+ *  the method will download the emoji image with emoji code if necessary
  *
- *  @param extData 二维数组 如 @[@[@"emojiCode", @1], @[@"text", @0]]
- */
-
-- (void)setPlaceholderTextWithData:(NSArray*)extData;
-/**
- *  设定视图文本，需要显示表情的地方如果本地有就显示，没有下载后显示
- *
- *  @param extData 二维数组 如 @[@[@"emojiCode", @1], @[@"text", @0]]
+ *  @param extData two dimentional array e.g. @[@[@"emojiCode", @1], @[@"text", @0]]
  */
 
 - (void)setMmTextData:(NSArray *)extData;
 /**
- *  设定视图文本，需要显示表情的地方如果本地有就显示，没有下载后显示
+ *  set data of MMTextView
+ *  the method will download the emoji image with emoji code if necessary
  *
- *  @param extData           二维数组 如 @[@[@"emojiCode", @1], @[@"text", @0]]
- *  @param completionHandler 完成显示表情后的回调
+ *  @param extData two dimentional array e.g. @[@[@"emojiCode", @1], @[@"text", @0]]
+ *  @param completionHandler   completion callback
  */
 - (void)setMmTextData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler;
 
+/**
+ *  search the content of MMtextView for URL and Phone number and set `link attribute` on them
+ */
 - (void)setURLAttributes;
 
 @end
@@ -59,28 +55,20 @@
 @protocol MMTextViewDelegate <NSObject>
 @optional
 
-/*!
- 点击URL的回调
- 
- @param label 当前Label
- @param url   点击的URL
+/**
+ *  the delegate method handles the click of URL
+ *
+ *  @param textView current MMtextView
+ *  @param url      the url that being clicked
  */
 - (void)mmTextView:(MMTextView *)textView didSelectLinkWithURL:(NSURL *)url;
 
-/*!
- 点击电话号码的回调
- 
- @param label       当前Label
- @param phoneNumber 点击的URL
+/**
+ *  the delegate method handles the click of phone number
+ *
+ *  @param textView    current MMtextView
+ *  @param phoneNumber the phone number that being clicked
  */
 - (void)mmTextView:(MMTextView *)textView didSelectLinkWithPhoneNumber:(NSString *)phoneNumber;
-
-/*!
- 点击Label的回调
- 
- @param label   当前Label
- @param content 点击的内容
- */
-- (void)mmTextView:(MMTextView *)textView didTapTextView:(NSString *)content;
 
 @end

@@ -18,38 +18,38 @@ typedef enum
 @interface MMTextParser : NSObject
 
 /**
-*   从text中解析所有MMEmoji，本地没有的emoji code会从服务器实时获取。completionHandler是表情消息解析完成后的回调，参数textImgArray类型可
-*   能是MMEmoji或字符串。
-*  @param text             mmtext
-*  @param completionHandler 完成的回调，包含MMEmoji,text对象的集合或者error对象
+*  parse text for MMEmoji and text (1.from local  2.from remote)
+*
+*  @param text              mmText
+*  @param completionHandler completion handler  textImgArray: a collection of MMEmoji and text or error
 */
 + (void)parseMMText:(nullable NSString *)text
   completionHandler:(void(^__nullable)(NSArray * __nullable textImgArray))completionHandler;
 
 /**
- *  从text中解析本地已下载的Emoji
+ *  parse text for MMEmoji and text only from local
  *
- *  @param text              mmtext
- *  @param completionHandler 完成的回调，包含MMEmoji, text对象的集合或者error对象
+ *  @param text              mmText
+ *  @param completionHandler completion handler  textImgArray: a collection of MMEmoji and text or error
  */
 + (void)localParseMMText:(nullable NSString *)text
        completionHandler:(void(^__nullable)(NSArray * __nullable textImgArray))completionHandler;
 
 /**
- *  从mmText中检查出符合emojiCode格式的result数组
+ *  parse to get a collection of NSTextCheckingResult that suits the pattern of emojiCode
  *
- *  @param mmText   mmText
+ *  @param mmText  mmText
  *
- *  @return         符合emojiCode的格式result数组
+ *  @return        a collection of NSTextCheckingResult that suits the pattern of emojiCode
  */
 + (nullable NSArray<NSTextCheckingResult *> *)findEmojicodesResultFromMMText:(nullable NSString *)mmText;
 
 /**
- *  根据emojiCode获取是大表情还是小表情
+ *  check the emojiCode to find out emoji type
  *
- *  @param emojiCode emojiCode
+ *  @param emojiCode    emojiCode
  *
- *  @return EmojiType
+ *  @return             EmojiType
  */
 + (EmojiType)emojiTypeWithEmojiCode:(nullable NSString*)emojiCode;
 

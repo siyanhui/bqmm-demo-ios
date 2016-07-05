@@ -10,7 +10,7 @@
 #import "MMChatViewTextCell.h"
 #import "MMChatViewImageCell.h"
 #import "MMMessage.h"
-//BQMM集成
+//Integrate BQMM
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
 #import "MMTextParser+ExtData.h"
@@ -30,7 +30,7 @@
     //menu
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHide) name:UIMenuControllerWillHideMenuNotification object:nil];
     
-    [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //设置BQMM键盘delegate
+    [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //set SDK delegate
     [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];
 }
 
@@ -148,7 +148,7 @@
     [cell set:message];
     return cell;
 }
-//BQMM集成
+//Integrate BQMM
 #pragma mark <MMInputToolBarViewDelegate>
 - (void)keyboardWillShowWithFrame:(CGRect)keyboardFrame {
     [self layoutViewsWithKeyboardFrame:keyboardFrame];
@@ -158,7 +158,7 @@
     sender.selected = !sender.selected;
     [_inputToolBar.inputTextView becomeFirstResponder];
     if (sender.selected) {
-        //attatch 表情mm键盘
+        //attatch emoji keyboard
         [[MMEmotionCentre defaultCentre] attachEmotionKeyboardToInput:_inputToolBar.inputTextView];
     }else{
         [[MMEmotionCentre defaultCentre] switchToDefaultKeyboard];
@@ -233,7 +233,7 @@
     [self scrollViewToBottom];
 }
 
-//BQMM集成
+//Integrate BQMM
 #pragma mark RCMessageCellDelegate
 - (void)didTapChatViewCell:(MMMessage *)messageModel {
     if(messageModel.messageType == MMMessageTypeBigEmoji){
@@ -255,7 +255,7 @@
     
     _menuController = [UIMenuController sharedMenuController];
     UIMenuItem *copyItem = [[UIMenuItem alloc]
-                            initWithTitle:@"复制"
+                            initWithTitle:@"Copy"
                             action:@selector(onCopyMessage)];
     [_menuController setMenuItems:nil];
     [_menuController setMenuItems:@[ copyItem ]];

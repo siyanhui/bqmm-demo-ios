@@ -164,7 +164,7 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-    //BQMM集成
+    //Integrate BQMM
     if (textView.markedTextRange == nil) {
         NSRange selectedRange = textView.selectedRange;
         textView.mmText = textView.mmText;
@@ -173,7 +173,7 @@
     [self performSelector:@selector(layoutTextView:) withObject:textView afterDelay:0.1];
 }
 
-//BQMM集成
+//Integrate BQMM
 #pragma mark MMEmotionCentreDelegate
 
 - (void)didSelectEmoji:(MMEmoji *)emoji
@@ -200,12 +200,9 @@
 {
     self.emojiButton.selected = false;
     [[MMEmotionCentre defaultCentre] switchToDefaultKeyboard];
-    if ([self.delegate respondsToSelector:@selector(didTouchMMTextViewOverLay)]) {
-        [self.delegate didTouchMMTextViewOverLay];
-    }
 }
 
-//BQMM集成
+//Integrate BQMM
 #pragma mark private method
 - (void)didSendTextMessage {
     if ([self.delegate respondsToSelector:@selector(didTouchKeyboardReturnKey:text:)]) {
