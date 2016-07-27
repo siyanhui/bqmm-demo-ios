@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CC0DBC841CCA32DB00822B6B /* MMTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0DBC7B1CCA32DB00822B6B /* MMTextAttachment.m */; };
-		CC0DBC851CCA32DB00822B6B /* MMTextParser+ExtData.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0DBC7D1CCA32DB00822B6B /* MMTextParser+ExtData.m */; };
-		CC0DBC861CCA32DB00822B6B /* MMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0DBC7F1CCA32DB00822B6B /* MMTextView.m */; };
-		CC0DBC871CCA32DB00822B6B /* BQMM.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC0DBC811CCA32DB00822B6B /* BQMM.bundle */; };
-		CC0DBC881CCA32DB00822B6B /* BQMM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0DBC821CCA32DB00822B6B /* BQMM.framework */; };
+		CC73877F1D4882AE002732B2 /* MMTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7387771D4882AE002732B2 /* MMTextAttachment.m */; };
+		CC7387801D4882AE002732B2 /* MMTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7387791D4882AE002732B2 /* MMTextParser.m */; };
+		CC7387811D4882AE002732B2 /* MMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC73877B1D4882AE002732B2 /* MMTextView.m */; };
+		CC7387821D4882AE002732B2 /* BQMM.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC73877D1D4882AE002732B2 /* BQMM.bundle */; };
+		CC7387831D4882AE002732B2 /* BQMM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC73877E1D4882AE002732B2 /* BQMM.framework */; };
+		CC7387861D488317002732B2 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7387851D488317002732B2 /* ChatMessage.m */; };
+		CCB2662E1D2B75C900983385 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB2662D1D2B75C900983385 /* Bugly.framework */; };
+		CCB266331D2B92A600983385 /* EditTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB266321D2B92A600983385 /* EditTextView.m */; };
 		CCC6757C1CC8B56B00A6084F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC6757B1CC8B56B00A6084F /* main.m */; };
 		CCC6757F1CC8B56B00A6084F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC6757E1CC8B56B00A6084F /* AppDelegate.m */; };
 		CCC675851CC8B56B00A6084F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCC675831CC8B56B00A6084F /* Main.storyboard */; };
 		CCC675871CC8B56B00A6084F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCC675861CC8B56B00A6084F /* Assets.xcassets */; };
 		CCC6758A1CC8B56B00A6084F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCC675881CC8B56B00A6084F /* LaunchScreen.storyboard */; };
-		CCC675961CC8B5CE00A6084F /* MMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC675951CC8B5CE00A6084F /* MMMessage.m */; };
 		CCC675991CC8BE3500A6084F /* MMChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC675981CC8BE3500A6084F /* MMChatViewController.m */; };
 		CCC6759C1CC8BE8500A6084F /* MMChatViewBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC6759B1CC8BE8500A6084F /* MMChatViewBaseCell.m */; };
 		CCC6759F1CC8BEA300A6084F /* MMChatViewTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC6759E1CC8BEA300A6084F /* MMChatViewTextCell.m */; };
@@ -30,14 +32,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CC0DBC7A1CCA32DB00822B6B /* MMTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTextAttachment.h; sourceTree = "<group>"; };
-		CC0DBC7B1CCA32DB00822B6B /* MMTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTextAttachment.m; sourceTree = "<group>"; };
-		CC0DBC7C1CCA32DB00822B6B /* MMTextParser+ExtData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMTextParser+ExtData.h"; sourceTree = "<group>"; };
-		CC0DBC7D1CCA32DB00822B6B /* MMTextParser+ExtData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MMTextParser+ExtData.m"; sourceTree = "<group>"; };
-		CC0DBC7E1CCA32DB00822B6B /* MMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTextView.h; sourceTree = "<group>"; };
-		CC0DBC7F1CCA32DB00822B6B /* MMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTextView.m; sourceTree = "<group>"; };
-		CC0DBC811CCA32DB00822B6B /* BQMM.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BQMM.bundle; sourceTree = "<group>"; };
-		CC0DBC821CCA32DB00822B6B /* BQMM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BQMM.framework; sourceTree = "<group>"; };
+		CC7387761D4882AE002732B2 /* MMTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTextAttachment.h; sourceTree = "<group>"; };
+		CC7387771D4882AE002732B2 /* MMTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTextAttachment.m; sourceTree = "<group>"; };
+		CC7387781D4882AE002732B2 /* MMTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTextParser.h; sourceTree = "<group>"; };
+		CC7387791D4882AE002732B2 /* MMTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTextParser.m; sourceTree = "<group>"; };
+		CC73877A1D4882AE002732B2 /* MMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTextView.h; sourceTree = "<group>"; };
+		CC73877B1D4882AE002732B2 /* MMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTextView.m; sourceTree = "<group>"; };
+		CC73877D1D4882AE002732B2 /* BQMM.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BQMM.bundle; sourceTree = "<group>"; };
+		CC73877E1D4882AE002732B2 /* BQMM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BQMM.framework; sourceTree = "<group>"; };
+		CC7387841D488317002732B2 /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatMessage.h; sourceTree = "<group>"; };
+		CC7387851D488317002732B2 /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatMessage.m; sourceTree = "<group>"; };
+		CCB2662D1D2B75C900983385 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
+		CCB266311D2B92A600983385 /* EditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTextView.h; sourceTree = "<group>"; };
+		CCB266321D2B92A600983385 /* EditTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTextView.m; sourceTree = "<group>"; };
 		CCC675771CC8B56B00A6084F /* IMDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCC6757B1CC8B56B00A6084F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CCC6757D1CC8B56B00A6084F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -46,8 +53,6 @@
 		CCC675861CC8B56B00A6084F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CCC675891CC8B56B00A6084F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CCC6758B1CC8B56B00A6084F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CCC675941CC8B5CE00A6084F /* MMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMMessage.h; sourceTree = "<group>"; };
-		CCC675951CC8B5CE00A6084F /* MMMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMMessage.m; sourceTree = "<group>"; };
 		CCC675971CC8BE3500A6084F /* MMChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMChatViewController.h; sourceTree = "<group>"; };
 		CCC675981CC8BE3500A6084F /* MMChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMChatViewController.m; sourceTree = "<group>"; };
 		CCC6759A1CC8BE8500A6084F /* MMChatViewBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMChatViewBaseCell.h; sourceTree = "<group>"; };
@@ -69,10 +74,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC675BA1CC8C38600A6084F /* SystemConfiguration.framework in Frameworks */,
 				CCC675B81CC8C37F00A6084F /* Security.framework in Frameworks */,
+				CC7387831D4882AE002732B2 /* BQMM.framework in Frameworks */,
+				CCC675BA1CC8C38600A6084F /* SystemConfiguration.framework in Frameworks */,
+				CCB2662E1D2B75C900983385 /* Bugly.framework in Frameworks */,
 				CCC675B61CC8C36700A6084F /* libz.tbd in Frameworks */,
-				CC0DBC881CCA32DB00822B6B /* BQMM.framework in Frameworks */,
 				CCC675B41CC8C35F00A6084F /* libc++.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,26 +86,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CC0DBC771CCA32DB00822B6B /* BQMM_EXT */ = {
+		CC7387751D4882AE002732B2 /* BQMM_EXT */ = {
 			isa = PBXGroup;
 			children = (
-				CC0DBC7A1CCA32DB00822B6B /* MMTextAttachment.h */,
-				CC0DBC7B1CCA32DB00822B6B /* MMTextAttachment.m */,
-				CC0DBC7C1CCA32DB00822B6B /* MMTextParser+ExtData.h */,
-				CC0DBC7D1CCA32DB00822B6B /* MMTextParser+ExtData.m */,
-				CC0DBC7E1CCA32DB00822B6B /* MMTextView.h */,
-				CC0DBC7F1CCA32DB00822B6B /* MMTextView.m */,
+				CC7387761D4882AE002732B2 /* MMTextAttachment.h */,
+				CC7387771D4882AE002732B2 /* MMTextAttachment.m */,
+				CC7387781D4882AE002732B2 /* MMTextParser.h */,
+				CC7387791D4882AE002732B2 /* MMTextParser.m */,
+				CC73877A1D4882AE002732B2 /* MMTextView.h */,
+				CC73877B1D4882AE002732B2 /* MMTextView.m */,
 			);
 			path = BQMM_EXT;
 			sourceTree = "<group>";
 		};
-		CC0DBC801CCA32DB00822B6B /* BQMM_SDK */ = {
+		CC73877C1D4882AE002732B2 /* BQMM_SDK */ = {
 			isa = PBXGroup;
 			children = (
-				CC0DBC811CCA32DB00822B6B /* BQMM.bundle */,
-				CC0DBC821CCA32DB00822B6B /* BQMM.framework */,
+				CC73877D1D4882AE002732B2 /* BQMM.bundle */,
+				CC73877E1D4882AE002732B2 /* BQMM.framework */,
 			);
 			path = BQMM_SDK;
+			sourceTree = "<group>";
+		};
+		CCB2662C1D2B75C900983385 /* Bugly */ = {
+			isa = PBXGroup;
+			children = (
+				CCB2662D1D2B75C900983385 /* Bugly.framework */,
+			);
+			path = Bugly;
 			sourceTree = "<group>";
 		};
 		CCC6756E1CC8B56B00A6084F = {
@@ -151,8 +165,8 @@
 		CCC675911CC8B5BD00A6084F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CCC675941CC8B5CE00A6084F /* MMMessage.h */,
-				CCC675951CC8B5CE00A6084F /* MMMessage.m */,
+				CC7387841D488317002732B2 /* ChatMessage.h */,
+				CC7387851D488317002732B2 /* ChatMessage.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +182,8 @@
 				CCC675A11CC8BEB900A6084F /* MMChatViewImageCell.m */,
 				CCC675BB1CC9C8B300A6084F /* MMInputToolBarView.h */,
 				CCC675BC1CC9C8B300A6084F /* MMInputToolBarView.m */,
+				CCB266311D2B92A600983385 /* EditTextView.h */,
+				CCB266321D2B92A600983385 /* EditTextView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,8 +200,9 @@
 		CCC675A31CC8C31000A6084F /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				CC0DBC771CCA32DB00822B6B /* BQMM_EXT */,
-				CC0DBC801CCA32DB00822B6B /* BQMM_SDK */,
+				CC7387751D4882AE002732B2 /* BQMM_EXT */,
+				CC73877C1D4882AE002732B2 /* BQMM_SDK */,
+				CCB2662C1D2B75C900983385 /* Bugly */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -200,6 +217,7 @@
 				CCC675731CC8B56B00A6084F /* Sources */,
 				CCC675741CC8B56B00A6084F /* Frameworks */,
 				CCC675751CC8B56B00A6084F /* Resources */,
+				CCB2662F1D2B766300983385 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -248,7 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC0DBC871CCA32DB00822B6B /* BQMM.bundle in Resources */,
+				CC7387821D4882AE002732B2 /* BQMM.bundle in Resources */,
 				CCC6758A1CC8B56B00A6084F /* LaunchScreen.storyboard in Resources */,
 				CCC675871CC8B56B00A6084F /* Assets.xcassets in Resources */,
 				CCC675851CC8B56B00A6084F /* Main.storyboard in Resources */,
@@ -257,22 +275,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CCB2662F1D2B766300983385 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n# Copyright 2014-2015 Bugly @Tencent. All rights reserved.\n#\n# V 1.1\n#\n################################################################################\n# 注意: 请配置下面的信息\n################################################################################\nBUGLY_APP_ID=\"900037281\"\nBUGLY_APP_KEY=\"IQ822nthPhWg3LTv\"\nBUNDLE_IDENTIFIER=\"com.siyanhui.IMDemo\"\n################################################################################\n# 自定义配置\n################################################################################\n# Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\nUPLOAD_DEBUG_SYMBOLS=1\n#\n# 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n#\n#\n# This script will extract symbols from the .dSYM and generate .symbol file(Bugly supported) and upload to server.\n# You could visit http://bugly.qq.com to get more details about Bugly.\n#\n# Usage:\n#   * The instructions assume you have copyed this script into your project int Xcode.\n#   * Copy the \"buglySymbolIOS.jar\" file into the \"~/bin\" folder.\n#   * Open the project editor, select your build target.\n#   * Click \"Build Phases\" at the top of the project editor.\n#   * Click \"+\" button in the top left corner and select \"New Run Script Phase\".\n#   * Click \"Run Script\".\n#   * Paste the following script into the dark text box. You will have to uncomment the lines (remove the #) of course.\n#\n# --- SCRIPT BEGINS ON NEXT LINE, COPY AND EDIT FROM THERE ---\n#\n#\n#\n# --- END OF SCRIPT ---\n\n\n################################################################################\n# 注意: 如果你不知道此脚本的执行流程和用法，请不要随便修改！\n################################################################################\n\n# 退出执行并打印提示信息\nexitWithMessage() {\n    echo \"--------------------------------\"\n    echo -e \"${1}\"\n    echo \"--------------------------------\"\n    echo \"No upload and exit.\"\n    echo \"----------------------------------------------------------------\"\n    exit ${2}\n}\n\necho \"----------------------------------------------------------------\"\necho \"Copyright 2014-2015 Bugly @Tencent. All rights reserved.\"\n\necho \"This script will extract symbols from the .dSYM file and generate .symbol file(Bugly supported) and upload to server.\"\necho \"You could visit http://bugly.qq.com to get more details about Bugly.\"\necho \"----------------------------------------------------------------\"\n\necho \"Uploading dSYM to Bugly.\"\necho \"\"\n\n# Bugly服务域名\nDSYM_UPLOAD_DOMAIN=\"bugly.qq.com\"\n\n# 读取Info.plist文件中的版本信息\necho \"Info.Plist : ${INFOPLIST_FILE}\"\n\nBUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\nBUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n\n# 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\nif [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\nBUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\nelse\nBUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\nfi\n\n# Bugly符号提取工具路径, 请确保buglySymboliOS.jar的路径是正确的\nBUGLY_SYMBOL_JAR_PATH=\"${SRCROOT}/dsymtool/buglySymboliOS.jar\"\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\necho \"--------------------------------\"\necho \"Step 1: Prepare application information.\"\necho \"--------------------------------\"\n\necho \"Product Name: ${PRODUCT_NAME}\"\necho \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\necho \"Version: ${BUNDLE_SHORT_VERSION}\"\necho \"Build: ${BUNDLE_VERSION}\"\n\necho \"Bugly App ID: ${BUGLY_APP_ID}\"\necho \"Bugly App key: ${BUGLY_APP_KEY}\"\necho \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n\necho \"--------------------------------\"\necho \"Step 2: Check the arguments ...\"\n\n##检查模拟器编译是否允许上传符号\nif [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\nif [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\nexitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\nfi\nfi\n\n##检查是否是Release模式编译\nif [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\nif [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\nexitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\nfi\nfi\n\n##检查是否Archive操作\nif [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\nif [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\necho \"Archive the package\"\nelse\nexitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\nfi\nfi\n\n# 检查必须参数是否设置\nif [ ! \"${BUGLY_APP_ID}\" ]; then\nexitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\nfi\nif [[ \"${BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\nexitWithMessage \"Error: Bugly App ID not defined.\" 0\nfi\n\nif [ ! \"${BUGLY_APP_KEY}\" ]; then\nexitWithMessage \"Error: Bugly APP Key not defined.\" 0\nfi\n\nif [ ! \"${BUNDLE_IDENTIFIER}\" ]; then\nexitWithMessage \"Error: Bundle Identifier not defined.\" 0\nfi\n\nfunction uploadDSYM {\n    DSYM_SRC=\"$1\"\n    echo \".dSYM file: ${DSYM_SRC}\"\n    if [ ! -d \"$DSYM_SRC\" ]; then\n    exitWithMessage \"dSYM source not found: ${DSYM_SRC}\" 0\n    fi\n    DSYM_FILE_NAME=${DSYM_SRC##*/}\n        DSYM_SYMBOL_OUT_ZIP_NAME=\"${DSYM_FILE_NAME}.bSymbol.zip\"\n        # 替换空格\n        DSYM_SYMBOL_OUT_ZIP_NAME=\"${DSYM_SYMBOL_OUT_ZIP_NAME// /_}\"\n        \n        # 声明符号表临时目录和备份目录\n        DSYM_ZIP_OUT_DIR=${BUILD_DIR}/BuglySymbolsTemp\n        DSYM_SYMBOL_BACKUP_DIR=${BUILD_DIR}/BuglySymbolsBackup\n        \n        if [ ! -e \"${DSYM_ZIP_OUT_DIR}\" ]; then\n        mkdir ${DSYM_ZIP_OUT_DIR}\n        fi\n        \n        if [ ! -e \"${DSYM_SYMBOL_BACKUP_DIR}\" ]; then\n        mkdir ${DSYM_SYMBOL_BACKUP_DIR}\n        fi\n        \n        # 备份并清理\n        find ${DSYM_ZIP_OUT_DIR} -name \"*.bSymbol.zip\" -print0 | xargs -0 -I {} mv {} ${DSYM_SYMBOL_BACKUP_DIR}\n        /bin/rm -rf \"${DSYM_ZIP_OUT_DIR}/*.bSymbol.zip\"\n        \n        DSYM_ZIP_FPATH=\"${DSYM_ZIP_OUT_DIR}/${DSYM_SYMBOL_OUT_ZIP_NAME}\"\n        \n        # 提取符号信息\n        echo \"--------------------------------\"\n        echo \"Step 3: Extract symbol info from .dSYM file. to ${DSYM_ZIP_FPATH}\"\n        \n        if [ ! -f \"$BUGLY_SYMBOL_JAR_PATH\" ]; then\n        exitWithMessage \"Error: Jar file '${BUGLY_SYMBOL_JAR_PATH}' was not found. \\nPlease copy the jar file into ~/bin folder.\" 1\n        fi\n        \n        echo \"--------------------------------\"\n        (/usr/bin/java -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_SRC}\" -o \"${DSYM_ZIP_FPATH}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n        echo \"--------------------------------\"\n        \n        if [ ! -e \"${DSYM_ZIP_FPATH}\" ]; then\n        DSYM_SYMBOL_OUT_ZIP_NAME=$(ls ${DSYM_ZIP_OUT_DIR} | grep \".bSymbol.zip\")\n        DSYM_ZIP_FPATH=\"${DSYM_ZIP_OUT_DIR}/${DSYM_SYMBOL_OUT_ZIP_NAME}\"\n        DSYM_SYMBOL_OUT_ZIP_NAME=${DSYM_SYMBOL_OUT_ZIP_NAME//&/_}\n            fi\n            \n            if [ ! -e \"${DSYM_ZIP_FPATH}\" ] ; then\n            exitWithMessage \"no symbol file zip archive generated: ${DSYM_ZIP_FPATH}\" 0\n            fi\n            \n            echo \"Step 4: Upload the symbols of dSYM.\"\n            echo \"--------------------------------\"\n            echo \"zip : ${DSYM_SYMBOL_OUT_ZIP_NAME}\"\n            echo \"dir : ${DSYM_ZIP_FPATH}\"\n            \n            echo \"dSYM upload domain: ${DSYM_UPLOAD_DOMAIN}\"\n            DSYM_UPLOAD_URL=\"http://${DSYM_UPLOAD_DOMAIN}/upload/dsym?app=${BUGLY_APP_ID}&pid=2&ver=${BUGLY_APP_VERSION}&n=${DSYM_SYMBOL_OUT_ZIP_NAME}&key=${BUGLY_APP_KEY}&bid=${BUNDLE_IDENTIFIER}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            # Upload dSYM to Bugly\n            echo \"curl --header \"Content-Type:application/zip\" --data-binary \"@${DSYM_ZIP_FPATH}\" \"${DSYM_UPLOAD_URL}\" --verbose\"\n            \n            echo \"--------------------------------\"\n            STATUS=$(/usr/bin/curl --header \"Content-Type:application/zip\" --data-binary \"@${DSYM_ZIP_FPATH}\" \"${DSYM_UPLOAD_URL}\" --verbose)\n            echo \"--------------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\":true\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n            \n            echo \"----------------------------------------------------------------\"\n        }\n        \n        # .dSYM文件信息\n        \n        DSYM_FOLDER=\"${DWARF_DSYM_FOLDER_PATH}\"\n        IFS=$'\\n'\n        \n        echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n        RET=\"F\"\n        \n        for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n        RET=\"T\"\n        echo \"Found dSYM file: $dsymFile\"\n        uploadDSYM $dsymFile\n        done\n        \n        if [ $RET = \"F\" ]; then\n        exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n        fi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CCC675731CC8B56B00A6084F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				CCC675A21CC8BEB900A6084F /* MMChatViewImageCell.m in Sources */,
+				CC7387811D4882AE002732B2 /* MMTextView.m in Sources */,
+				CC7387801D4882AE002732B2 /* MMTextParser.m in Sources */,
 				CCC6759C1CC8BE8500A6084F /* MMChatViewBaseCell.m in Sources */,
 				CCC6759F1CC8BEA300A6084F /* MMChatViewTextCell.m in Sources */,
+				CCB266331D2B92A600983385 /* EditTextView.m in Sources */,
 				CCC675BD1CC9C8B300A6084F /* MMInputToolBarView.m in Sources */,
-				CCC675961CC8B5CE00A6084F /* MMMessage.m in Sources */,
 				CCC6757F1CC8B56B00A6084F /* AppDelegate.m in Sources */,
+				CC73877F1D4882AE002732B2 /* MMTextAttachment.m in Sources */,
+				CC7387861D488317002732B2 /* ChatMessage.m in Sources */,
 				CCC6757C1CC8B56B00A6084F /* main.m in Sources */,
 				CCC675991CC8BE3500A6084F /* MMChatViewController.m in Sources */,
-				CC0DBC841CCA32DB00822B6B /* MMTextAttachment.m in Sources */,
-				CC0DBC851CCA32DB00822B6B /* MMTextParser+ExtData.m in Sources */,
-				CC0DBC861CCA32DB00822B6B /* MMTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,10 +420,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IMDemo/Framework/BQMM_SDK",
+					"$(PROJECT_DIR)/IMDemo/Framework/Bugly",
 				);
 				INFOPLIST_FILE = IMDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -408,6 +445,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IMDemo/Framework/BQMM_SDK",
+					"$(PROJECT_DIR)/IMDemo/Framework/Bugly",
 				);
 				INFOPLIST_FILE = IMDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

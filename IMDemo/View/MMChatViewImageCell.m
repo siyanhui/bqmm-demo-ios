@@ -30,7 +30,7 @@
     self.messageBubbleView.hidden = true;
 }
 
-- (void)set:(MMMessage *)messageData {
+- (void)set:(ChatMessage *)messageData {
     [super set:messageData];
     
     self.pictureView.image = [UIImage imageNamed:@"mm_emoji_loading"];

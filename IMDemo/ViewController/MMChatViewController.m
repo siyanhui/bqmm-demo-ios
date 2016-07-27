@@ -9,15 +9,15 @@
 #import "MMChatViewController.h"
 #import "MMChatViewTextCell.h"
 #import "MMChatViewImageCell.h"
-#import "MMMessage.h"
+#import "ChatMessage.h"
 //Integrate BQMM
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
-#import "MMTextParser+ExtData.h"
+#import "MMTextParser.h"
 
 @interface MMChatViewController (){
     NSMutableArray *_messagesArray;
-    MMMessage *_longPressSelectedModel;
+    ChatMessage *_longPressSelectedModel;
     UIMenuController *_menuController;
     BOOL _isFirstLayOut;
 }
@@ -28,6 +28,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     //menu
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHide) name:UIMenuControllerWillHideMenuNotification object:nil];
     
     [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //set SDK delegate
@@ -40,11 +41,39 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [MMEmotionCentre defaultCentre].delegate = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    //正常初始化
+    //海外
+    //    NSString *appId = @"dc5bdb26a4e745e3ad4198ff9ea477eb";
+    //    NSString *secret = @"3e48f004b96640a3b43a5d11ce913b88";
+    //中国
+        NSString *appId = @"15e0710942ec49a29d2224a6af4460ee";
+        NSString *secret = @"b11e0936a9d04be19300b1d6eec0ccd5";
+    //豌豆公主
+    //    NSString *appId = @"c77b3674957d48d19ad121441a6a5c7d";
+    //    NSString *secret = @"fa7a97a7119b4f47a8fc1407d86e9e16";
+    
+        [[MMEmotionCentre defaultCentre] setAppId:appId
+                                           secret:secret];
+
+    //第三方平台方式初始化
+//    NSString *appKey = @"wfdfsdfdsfasdass";
+//    NSString *platformId = @"97790e9a809a41c7aa523ba5fa019f25";
+//    [[MMEmotionCentre defaultCentre] setAppkey:appKey platformId:platformId];
+
+    [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
+    [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageEnglish;
+    [MMEmotionCentre defaultCentre].sdkRegion = MMRegionOther;
+    
+    
+    
     self.view.backgroundColor = [UIColor whiteColor];
     _isFirstLayOut = true;
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToDismissKeyboard)]];
@@ -60,6 +89,8 @@
     _inputToolBar = [[MMInputToolBarView alloc] initWithFrame:CGRectZero];
     _inputToolBar.delegate = self;
     [self.view addSubview:_inputToolBar];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"表情商店" style:(UIBarButtonItemStylePlain) target:self action:@selector(openBqShop)];
     
     _messagesArray = [[NSMutableArray alloc] initWithCapacity:0];
 }
@@ -74,6 +105,11 @@
         
         _isFirstLayOut = false;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+//    [self test];
 }
 
 - (void)layoutViewsWithKeyboardFrame:(CGRect)keyboardFrame {
@@ -95,6 +131,10 @@
     [self.view endEditing:true];
 }
 
+- (void)openBqShop {
+    [[MMEmotionCentre defaultCentre] presentShopViewController];
+}
+
 - (void)scrollViewToBottom {
     NSUInteger finalRow = MAX(0, [self.messagesTableView numberOfRowsInSection:0] - 1);
     if (0 == finalRow) {
@@ -106,7 +146,7 @@
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MMMessage *message = (MMMessage *)_messagesArray[indexPath.row];
+    ChatMessage *message = (ChatMessage *)_messagesArray[indexPath.row];
     return [MMChatViewBaseCell cellHeightFor:message];
 }
 
@@ -117,7 +157,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    MMMessage *message = (MMMessage *)_messagesArray[indexPath.row];
+    ChatMessage *message = (ChatMessage *)_messagesArray[indexPath.row];
     NSString *reuseId = @"";
     
     MMChatViewBaseCell *cell = nil;
@@ -156,48 +196,31 @@
 
 - (void)didTouchEmojiButton:(UIButton *)sender {
     sender.selected = !sender.selected;
-    [_inputToolBar.inputTextView becomeFirstResponder];
     if (sender.selected) {
         //attatch emoji keyboard
         [[MMEmotionCentre defaultCentre] attachEmotionKeyboardToInput:_inputToolBar.inputTextView];
+        
     }else{
         [[MMEmotionCentre defaultCentre] switchToDefaultKeyboard];
     }
+    [_inputToolBar.inputTextView becomeFirstResponder];
 }
 
 - (void)didSendMMFace:(MMEmoji *)emoji {
     NSString *sendStr = [@"[" stringByAppendingFormat:@"%@]", emoji.emojiName];
     NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_FACE_TYPE,
-                             TEXT_MESG_DATA:[MMTextParser extDataWithEmojiCode:emoji.emojiCode]};
-    MMMessage *message = [[MMMessage alloc] initWithMessageType:MMMessageTypeBigEmoji messageContent:sendStr messageExtraInfo:extDic];
+                             TEXT_MESG_DATA:[MMTextParser extDataWithEmoji:emoji]};
+    ChatMessage *message = [[ChatMessage alloc] initWithMessageType:MMMessageTypeBigEmoji messageContent:sendStr messageExtraInfo:extDic];
     [self appendAndDisplayMessage:message];
 }
 
-- (void)didTouchKeyboardReturnKey:(MMInputToolBarView *)inputView text:(NSString *)text {
+- (void)didTouchKeyboardReturnKey:(UITextView *)inputView {
     
-    text = [text stringByReplacingOccurrencesOfString:@"\a" withString:@""];
-    [MMTextParser localParseMMText:text completionHandler:^(NSArray *textImgArray) {
-        NSDictionary *extDic = nil;
-        NSString *sendStr = @"";
-        for (id obj in textImgArray) {
-            if ([obj isKindOfClass:[MMEmoji class]]) {
-                MMEmoji *emoji = (MMEmoji*)obj;
-                if (!extDic) {
-                    extDic = @{TEXT_MESG_TYPE:TEXT_MESG_EMOJI_TYPE,
-                            TEXT_MESG_DATA:[MMTextParser extDataWithTextImageArray:textImgArray]};
-                }
-                sendStr = [sendStr stringByAppendingString:[NSString stringWithFormat:@"[%@]", emoji.emojiName]];
-            }
-            else if ([obj isKindOfClass:[NSString class]]) {
-                sendStr = [sendStr stringByAppendingString:obj];
-            }
-        }
-
-        MMMessage *message = [[MMMessage alloc] initWithMessageType:MMMessageTypeText messageContent:sendStr messageExtraInfo:extDic];
-        [self appendAndDisplayMessage:message];
-
-        
-    }];
+    NSArray *textImgArray = inputView.textImgArray;
+    NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_EMOJI_TYPE,
+                             TEXT_MESG_DATA:[MMTextParser extDataWithTextImageArray:textImgArray]};;
+    ChatMessage *message = [[ChatMessage alloc] initWithMessageType:MMMessageTypeText messageContent:inputView.characterMMText messageExtraInfo:extDic];
+    [self appendAndDisplayMessage:message];
 }
 
 - (void)toolbarHeightDidChangedTo:(CGFloat)height {
@@ -218,7 +241,7 @@
 }
 
 #pragma mark -- private
-- (void)appendAndDisplayMessage:(MMMessage *)message {
+- (void)appendAndDisplayMessage:(ChatMessage *)message {
     if (!message) {
         return;
     }
@@ -235,7 +258,7 @@
 
 //Integrate BQMM
 #pragma mark RCMessageCellDelegate
-- (void)didTapChatViewCell:(MMMessage *)messageModel {
+- (void)didTapChatViewCell:(ChatMessage *)messageModel {
     if(messageModel.messageType == MMMessageTypeBigEmoji){
         
         NSDictionary *extDic = messageModel.messageExtraInfo;
@@ -246,7 +269,7 @@
     }
 }
 
-- (void)didLongPressChatViewCell:(MMMessage *)messageModel inView:(UIView *)view {
+- (void)didLongPressChatViewCell:(ChatMessage *)messageModel inView:(UIView *)view {
     _inputToolBar.inputTextView.disableActionMenu = YES;
     
     _longPressSelectedModel = messageModel;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 //Integrate BQMM
-#import "MMTextView.h"
+#import "EditTextView.h"
 #import <BQMM/BQMM.h>
 #define INPUT_TOOL_BAR_HEIGHT 50.0f
 #define TEXTVIEW_MAX_HEIGHT 200.0f
@@ -24,7 +24,7 @@
 
 
 @property(weak, nonatomic) id<MMInputToolBarViewDelegate> delegate;
-@property(strong, nonatomic) MMTextView *inputTextView;
+@property(strong, nonatomic) EditTextView *inputTextView;
 @property(strong, nonatomic) UIButton *emojiButton;
 
 /*!
@@ -54,10 +54,9 @@
 /*!
  the delegate method handles the click of `return` key in keyboard
  
- @param inputView    MMInputToolBarView
- @param text         the content in inputView
+ @param inputView    UITextView
  */
-- (void)didTouchKeyboardReturnKey:(MMInputToolBarView *)inputView text:(NSString *)text;
+- (void)didTouchKeyboardReturnKey:(UITextView *)inputView;
 
 /*!
  the delegate method handles the click of emoji button

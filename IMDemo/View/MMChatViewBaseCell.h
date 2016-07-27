@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MMMessage.h"
+#import "ChatMessage.h"
 //Integrate BQMM
 #import <BQMM/BQMM.h>
-#import "MMTextParser+ExtData.h"
+#import "MMTextParser.h"
 
 #define BUBBLE_MAX_WIDTH ([[UIScreen mainScreen] bounds].size.width * 0.65)
 #define TEXT_MESSAGEFONT_SIZE 17
@@ -27,14 +27,14 @@
 @property(strong, nonatomic) UIView *messageView;
 @property(strong, nonatomic) UIImageView *messageBubbleView;
 
-@property(strong, nonatomic) MMMessage *messageModel;
+@property(strong, nonatomic) ChatMessage *messageModel;
 @property(nonatomic) CGSize bubbleSize;
 
 @property(nonatomic, weak) id<RCMessageCellDelegate> delegate;
 
 - (void)setView;
-- (void)set:(MMMessage *)messageData;
-+ (CGFloat)cellHeightFor:(MMMessage *)message;
+- (void)set:(ChatMessage *)messageData;
++ (CGFloat)cellHeightFor:(ChatMessage *)message;
 
 @end
 
@@ -47,7 +47,7 @@
  
  @param model message model
  */
-- (void)didTapChatViewCell:(MMMessage *)messageModel;
+- (void)didTapChatViewCell:(ChatMessage *)messageModel;
 
 /**
  *  the delegate method handles `long press` of message cell
@@ -55,7 +55,7 @@
  *  @param messageModel message model
  *  @param view         the view that holds the message
  */
-- (void)didLongPressChatViewCell:(MMMessage *)messageModel inView:(UIView *)view;
+- (void)didLongPressChatViewCell:(ChatMessage *)messageModel inView:(UIView *)view;
 
 /**
  *  the delegate method handles `tap` of url in message cell

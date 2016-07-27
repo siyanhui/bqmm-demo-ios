@@ -56,7 +56,7 @@
     _messageBubbleView.frame = CGRectMake(0, 0, _bubbleSize.width, _bubbleSize.height);
 }
 
-- (void)set:(MMMessage *)messageData {
+- (void)set:(ChatMessage *)messageData {
     self.messageModel = messageData;
     
     UIImage *bubbleImage = [UIImage imageNamed:@"ic_bubble"];
@@ -70,15 +70,15 @@
     self.bubbleSize = CGSizeMake(0, 0);
 }
 
-+ (CGFloat)cellHeightFor:(MMMessage *)message {
++ (CGFloat)cellHeightFor:(ChatMessage *)message {
     CGFloat height = 0;
     CGSize bubbleSize = [MMChatViewBaseCell bubbleSizeFor:message];
     height += bubbleSize.height + 20;
     return height;
 }
 
-+ (CGSize)bubbleSizeFor:(MMMessage *)message {
-    CGSize size = CGSizeMake(0, 0);
++ (CGSize)bubbleSizeFor:(ChatMessage *)message {
+    CGSize size;
     switch (message.messageType) {
         //Integrate BQMM
         case MMMessageTypeText:

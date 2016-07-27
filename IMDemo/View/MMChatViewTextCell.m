@@ -34,24 +34,23 @@
     [self.messageView addSubview:_textMessageView];
 }
 
-- (void)set:(MMMessage *)messageData {
+- (void)set:(ChatMessage *)messageData {
     //Integrate BQMM
     [super set:messageData];
     NSDictionary *extDic = messageData.messageExtraInfo;
     if(extDic) {
         [_textMessageView setMmTextData:extDic[TEXT_MESG_DATA]];
     }else{
-        _textMessageView.mmText = messageData.messageContent;
+        _textMessageView.text = messageData.messageContent;
+        //search the content of MMtextView for URL and Phone number and set `link attribute` on them
+        [_textMessageView setURLAttributes];
     }
-    
-    //search the content of MMtextView for URL and Phone number and set `link attribute` on them
-    [_textMessageView setURLAttributes];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGSize messageSize = self.messageView.frame.size;
-    CGSize size = CGSizeMake(0, 0);
+    CGSize size = CGSizeZero;
     //Integrate BQMM
     if(self.messageModel.messageExtraInfo != nil) {
         size = [MMTextParser sizeForMMTextWithExtData:self.messageModel.messageExtraInfo[TEXT_MESG_DATA] font:[UIFont systemFontOfSize:TEXT_MESSAGEFONT_SIZE] maximumTextWidth:BUBBLE_MAX_WIDTH - (CONTENT_RIGHT_MARGIN + CONTENT_LEFT_MARGIN)];

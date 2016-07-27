@@ -94,7 +94,7 @@
 {
     _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
     self.backgroundColor = [UIColor colorWithRed:200 / 255.f green:200 / 255.f blue:200 / 255.f alpha:1];
-    _inputTextView = [[MMTextView alloc] init];
+    _inputTextView = [[EditTextView alloc] init];
     _inputTextView.delegate = self;
     [_inputTextView setExclusiveTouch:YES];
     [_inputTextView setTextColor:[UIColor blackColor]];
@@ -125,8 +125,8 @@
 - (void)layoutViews {
     CGSize viewSize = self.frame.size;
     
-    CGSize emojiButtonSize = CGSizeMake(28, 28);
-    self.emojiButton.frame = CGRectMake(15, viewSize.height - emojiButtonSize.height - 11, emojiButtonSize.width, emojiButtonSize.height);
+    CGSize emojiButtonSize = CGSizeMake(40, 40);
+    self.emojiButton.frame = CGRectMake(15, viewSize.height - emojiButtonSize.height - 5, emojiButtonSize.width, emojiButtonSize.height);
     
     CGFloat inputViewWidth = viewSize.width - CGRectGetMaxX(self.emojiButton.frame) - 10 - 10;
     self.inputTextView.frame = CGRectMake(CGRectGetMaxX(self.emojiButton.frame) + 10, (viewSize.height - _inputTextViewHeight) / 2, inputViewWidth, _inputTextViewHeight);
@@ -148,6 +148,8 @@
 
 - (void)layoutTextView:(UITextView *)textView {
     CGFloat height = textView.contentSize.height;
+    [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height) / 2) animated:NO];
+    NSLog(@"_inputTextView contentOffset: %f", _inputTextView.contentOffset.y);
     if(height != _inputTextViewHeight) {
         
         if(height > TEXTVIEW_MIN_HEIGHT) {
@@ -165,11 +167,7 @@
 
 - (void)textViewDidChange:(UITextView *)textView {
     //Integrate BQMM
-    if (textView.markedTextRange == nil) {
-        NSRange selectedRange = textView.selectedRange;
-        textView.mmText = textView.mmText;
-        textView.selectedRange = selectedRange;
-    }
+    [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height) / 2) animated:NO];
     [self performSelector:@selector(layoutTextView:) withObject:textView afterDelay:0.1];
 }
 
@@ -205,15 +203,10 @@
 //Integrate BQMM
 #pragma mark private method
 - (void)didSendTextMessage {
-    if ([self.delegate respondsToSelector:@selector(didTouchKeyboardReturnKey:text:)]) {
-        NSString *_needToSendText = _inputTextView.mmText;
-        NSString *_formatString =
-        [_needToSendText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if ([_formatString length] > 0) {
-            [self.delegate didTouchKeyboardReturnKey:self text:[_needToSendText copy]];
-        }
+    if ([self.delegate respondsToSelector:@selector(didTouchKeyboardReturnKey:)]) {
+        [self.delegate didTouchKeyboardReturnKey:self.inputTextView];
     }
-    self.inputTextView.mmText = @"";
+    self.inputTextView.text = @"";
     _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
     [self relayout];
 }

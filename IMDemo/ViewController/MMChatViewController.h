@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MMInputToolBarView.h"
 #import "MMChatViewBaseCell.h"
-#import "MMMessage.h"
+#import "ChatMessage.h"
 
 @interface MMChatViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, RCMessageCellDelegate, MMInputToolBarViewDelegate>
 

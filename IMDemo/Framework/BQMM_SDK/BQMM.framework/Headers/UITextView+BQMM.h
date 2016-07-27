@@ -13,7 +13,9 @@
 /**
  *  emoji message
  */
-@property(nonatomic, assign, nullable) NSString *mmText;
+@property(nonatomic, assign, readonly, nonnull) NSString *characterMMText;
+
+@property(nonatomic, assign, readonly, nonnull) NSArray *textImgArray;
 
 /**
  *  get a range of emoji message

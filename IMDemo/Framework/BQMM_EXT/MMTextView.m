@@ -8,7 +8,7 @@
 #include <CoreText/CoreText.h>
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
-#import "MMTextParser+ExtData.h"
+#import "MMTextParser.h"
 #import "MMTextAttachment.h"
 
 @interface MMDataDetector : NSDataDetector
@@ -112,14 +112,15 @@
 
 - (void)setText:(NSString *)text {
     [self clearImageViewsCover];
+    self.task++;
     [super setText:text];
 }
 
-- (void)setMmText:(NSString *)mmText {
-    self.task++;
-    self.text = mmText;
-
-}
+//- (void)setMmText:(NSString *)mmText {//这个不需要吧
+//    self.task++;
+//    self.text = mmText;
+//
+//}
 
 - (void)setMmTextData:(NSArray *)extData {
     self.task++;
@@ -136,14 +137,12 @@
                                         options:0
                                      usingBlock:^(id value, NSRange range, BOOL * stop) {
                                          if ([value isKindOfClass:[MMTextAttachment class]]) {
-                                             if ([value isKindOfClass:[MMTextAttachment class]]) {
-                                                 MMTextAttachment *attachment = (MMTextAttachment *)value;
-                                                 [weakSelf.attachmentRanges addObject:[NSValue valueWithRange:range]];
-                                                 [weakSelf.attachments addObject:value];
-                                                 UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
-                                                 attachment.image = nil;
-                                                 [weakSelf.imageViews addObject:imgView];
-                                             }
+                                             MMTextAttachment *attachment = (MMTextAttachment *)value;
+                                             [weakSelf.attachmentRanges addObject:[NSValue valueWithRange:range]];
+                                             [weakSelf.attachments addObject:value];
+                                             UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
+                                             attachment.image = nil;
+                                             [weakSelf.imageViews addObject:imgView];
                                          }
                                      }];
         [weakSelf setNeedsLayout];
@@ -208,6 +207,8 @@
             [mAStr addAttribute:NSForegroundColorAttributeName value:weakSelf.mmTextColor range:NSMakeRange(0, mAStr.length)];
         }
         weakSelf.attributedText = mAStr;
+        //search the content of MMtextView for URL and Phone number and set `link attribute` on them
+        [weakSelf setURLAttributes];
         if (completionHandler) {
             completionHandler();
         }
@@ -322,9 +323,11 @@
 
 - (void)highlightLinksWithIndex:(CFIndex)index {
     NSMutableAttributedString* attributedString = [self.attributedText mutableCopy];
-    [attributedString addAttribute:NSForegroundColorAttributeName
-                             value:self.textColor
-                             range:NSMakeRange(0, attributedString.string.length)];
+    if (self.textColor) {
+        [attributedString addAttribute:NSForegroundColorAttributeName
+                                 value:self.textColor
+                                 range:NSMakeRange(0, attributedString.string.length)];
+    }
     for (NSTextCheckingResult *match in _urlMatches) {
         if ([match resultType] == NSTextCheckingTypeLink || [match resultType] == NSTextCheckingTypePhoneNumber) {
             NSRange matchRange = [match range];
@@ -443,6 +446,7 @@
 
     if (frame == NULL) {
         CFRelease(path);
+        CFRelease(framesetter);
         return NSNotFound;
     }
 
@@ -451,6 +455,7 @@
     if (numberOfLines == 0) {
         CFRelease(frame);
         CFRelease(path);
+        CFRelease(framesetter);
         return NSNotFound;
     }
 
@@ -488,6 +493,7 @@
     }
     CFRelease(frame);
     CFRelease(path);
+    CFRelease(framesetter);
     return idx;
 }
 
