@@ -203,6 +203,10 @@
 //Integrate BQMM
 #pragma mark private method
 - (void)didSendTextMessage {
+    NSString *Text = [self.inputTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([Text isEqualToString:@""]) {
+        return;
+    }
     if ([self.delegate respondsToSelector:@selector(didTouchKeyboardReturnKey:)]) {
         [self.delegate didTouchKeyboardReturnKey:self.inputTextView];
     }
