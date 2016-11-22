@@ -53,7 +53,6 @@ typedef enum
 /**
  *  compute the size of MMTextView, `text` is MMTextView's content
  *
- *  @param extData           a two dimentional array e.g. @[@[@"emojiCode", @1], @[@"text", @0]]
  *  @param font              the font of MMTextView
  *  @param maximumTextWidth  the max width set to MMTextView
  *
