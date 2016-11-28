@@ -48,32 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    //正常初始化
-    //海外
-    //    NSString *appId = @"dc5bdb26a4e745e3ad4198ff9ea477eb";
-    //    NSString *secret = @"3e48f004b96640a3b43a5d11ce913b88";
-    //中国
-        NSString *appId = @"15e0710942ec49a29d2224a6af4460ee";
-        NSString *secret = @"b11e0936a9d04be19300b1d6eec0ccd5";
-    //豌豆公主
-    //    NSString *appId = @"c77b3674957d48d19ad121441a6a5c7d";
-    //    NSString *secret = @"fa7a97a7119b4f47a8fc1407d86e9e16";
-    
-        [[MMEmotionCentre defaultCentre] setAppId:appId
-                                           secret:secret];
-
-    //第三方平台方式初始化
-//    NSString *appKey = @"wfdfsdfdsfasdass";
-//    NSString *platformId = @"97790e9a809a41c7aa523ba5fa019f25";
-//    [[MMEmotionCentre defaultCentre] setAppkey:appKey platformId:platformId];
-
-    [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
-    [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageEnglish;
-    [MMEmotionCentre defaultCentre].sdkRegion = MMRegionOther;
-    
-    
-    
     self.view.backgroundColor = [UIColor whiteColor];
     _isFirstLayOut = true;
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToDismissKeyboard)]];
