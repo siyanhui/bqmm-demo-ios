@@ -83,6 +83,13 @@ typedef enum
 @interface MMEmotionCentre : NSObject
 
 /**
+ *  Weather to use http or not
+ *  Default is NO (use https)
+ *  Can only be set once on startup
+ */
+@property (nonatomic) BOOL useHttp;
+
+/**
  *  SDK region  default:MMRegionChina
  */
 @property (nonatomic) MMRegion sdkRegion;
@@ -179,6 +186,12 @@ typedef enum
  */
 - (void)shouldShowShotcutPopoverAboveView:(nonnull UIView *)attchedView
                                 withInput:(nonnull UIResponder<UITextInput> *)input;
+
+
+/**
+ dismiss `prompts`
+ */
+- (void)dismissShotcutPopover;
 
 /**
  * Enabled means Keyboard will show Unicode Emoji Tap; Default is Enabled
