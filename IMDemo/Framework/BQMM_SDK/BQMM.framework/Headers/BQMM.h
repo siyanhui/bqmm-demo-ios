@@ -9,7 +9,7 @@
 #ifndef BQMM_h
 #define BQMM_h
 
-#define BQMM_VERSION 0x00010713
+#define BQMM_VERSION 0x00010716
 #define BQMM_BUILD @"release"
 
 #import "MMEmotionCentre.h"
