@@ -148,7 +148,11 @@
 
 - (void)layoutTextView:(UITextView *)textView {
     CGFloat height = textView.contentSize.height;
-    [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height)) animated:NO];
+    CGFloat maxHeight = (TEXTVIEW_MAX_HEIGHT - textView.textContainerInset.top - textView.textContainerInset.bottom);
+    if (_inputTextViewHeight >= maxHeight && height >= maxHeight) {
+        return;
+    }
+    [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height) / 2) animated:NO];
     NSLog(@"_inputTextView contentOffset: %f", _inputTextView.contentOffset.y);
     if(height != _inputTextViewHeight) {
         
@@ -156,7 +160,7 @@
             _inputTextViewHeight = height;
             if(height + textView.textContainerInset.top + textView.textContainerInset.bottom < TEXTVIEW_MAX_HEIGHT) {
             }else{
-                _inputTextViewHeight = (TEXTVIEW_MAX_HEIGHT - textView.textContainerInset.top - textView.textContainerInset.bottom);
+                _inputTextViewHeight = maxHeight;
             }
         }else{
             _inputTextViewHeight = TEXTVIEW_MIN_HEIGHT;
@@ -167,7 +171,7 @@
 
 - (void)textViewDidChange:(UITextView *)textView {
     //Integrate BQMM
-    [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height)) animated:NO];
+//    [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height)) animated:NO];
     [self performSelector:@selector(layoutTextView:) withObject:textView afterDelay:0.1];
 }
 
