@@ -12,6 +12,7 @@
 
 #import <Bugly/Bugly.h>
 #import "MMChatViewController.h"
+#import "BQMMDNSConfigurator.h"
 
 @interface AppDelegate ()
 
@@ -25,17 +26,23 @@
     
     
     //Integrate BQMM    initialize
-    NSString *appId = @"yourAppId";
-    NSString *secret = @"yourAppSecret";
+    NSString *appId = @"15e0710942ec49a29d2224a6af4460ee";
+    NSString *secret = @"b11e0936a9d04be19300b1d6eec0ccd5";
     [[MMEmotionCentre defaultCentre] setAppId:appId
                                        secret:secret];
+ //   [[BQMMDNSConfigurator sharedConfigurator] setup];
+//    [[MMEmotionCentre defaultCentre] setAppkey:@"8aaf0708586c4340015870446c2d020e" platformId:@"97790e9a809a41c7aa523ba5fa019f25"];
     
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
-    [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageEnglish;
+    [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageChinese;
     
+    MMTheme *theme = [[MMTheme alloc] init];
+    theme.navigationBarColor = [UIColor blueColor];
+    theme.navigationBarTintColor = [UIColor redColor];
+    [[MMEmotionCentre defaultCentre] setTheme:theme];
     
     //initialize bugly
-    [Bugly startWithAppId:@"900037281"];
+//    [Bugly startWithAppId:@"900037281"];
     
     MMChatViewController *VC = [[MMChatViewController alloc] init];
     VC.title = @"chat view";

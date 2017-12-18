@@ -153,7 +153,7 @@
         return;
     }
     [_inputTextView setContentOffset:CGPointMake(0.0f, (_inputTextView.contentSize.height - self.inputTextView.frame.size.height) / 2) animated:NO];
-    NSLog(@"_inputTextView contentOffset: %f", _inputTextView.contentOffset.y);
+    
     if(height != _inputTextViewHeight) {
         
         if(height > TEXTVIEW_MIN_HEIGHT) {
@@ -177,6 +177,13 @@
 
 //Integrate BQMM
 #pragma mark MMEmotionCentreDelegate
+
+- (void)didClickGifTab {
+    self.emojiButton.selected = NO;
+    if ([self.delegate respondsToSelector:@selector(didClickGifTab)]) {
+        [self.delegate didClickGifTab];
+    }
+}
 
 - (void)didSelectEmoji:(MMEmoji *)emoji
 {

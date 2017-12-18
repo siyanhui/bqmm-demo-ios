@@ -92,6 +92,20 @@
         case MMMessageTypeBigEmoji:
             size = CGSizeMake(120, 120);
             break;
+        case MMMessageTypeGif:
+        {
+            NSDictionary *extDic = message.messageExtraInfo;
+            NSDictionary *msgData = extDic[TEXT_MESG_DATA];
+            float height = [msgData[WEBSTICKER_HEIGHT] floatValue];
+            float width = [msgData[WEBSTICKER_WIDTH] floatValue];
+            //宽最大200 高最大 150
+            if (width > 200) {
+                height = 200.0 / width * height;
+                width = 200;
+            }
+            size = CGSizeMake(width, height);
+        }
+            break;
     }
     size.width = size.width + CONTENT_RIGHT_MARGIN + CONTENT_LEFT_MARGIN;
     size.height = size.height + CONTENT_TOP_MARGIN + CONTENT_BOTTOM_MARGIN;

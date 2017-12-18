@@ -9,11 +9,13 @@
 #import "MMChatViewController.h"
 #import "MMChatViewTextCell.h"
 #import "MMChatViewImageCell.h"
+#import "MMChatViewGifCell.h"
 #import "ChatMessage.h"
 //Integrate BQMM
 #import "MMTextView.h"
 #import <BQMM/BQMM.h>
 #import "MMTextParser.h"
+#import "MMGifManager.h"
 
 @interface MMChatViewController (){
     NSMutableArray *_messagesArray;
@@ -32,7 +34,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHide) name:UIMenuControllerWillHideMenuNotification object:nil];
     
     [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //set SDK delegate
-    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];
+//    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];
+    //BQMM集成   设置gif搜索相关
+    [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputToolBar.inputTextView];
+    [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputToolBar];
+    __weak MMChatViewController* weakSelf = self;
+    [MMGifManager defaultManager].selectedHandler = ^(MMGif * _Nullable gif) {
+        __strong MMChatViewController *tempSelf = weakSelf;
+        if(tempSelf) {
+            tempSelf.inputToolBar.inputTextView.text = nil;
+            [tempSelf didSendGifMessage:gif];
+        }
+        
+    };
+    
 }
 
 - (void)menuDidHide {
@@ -156,6 +171,15 @@
             }
         }
             break;
+        case MMMessageTypeGif:
+        {
+            reuseId = @"gifMessage";
+            cell = (MMChatViewGifCell *)[tableView dequeueReusableCellWithIdentifier:reuseId];
+            if(cell == nil) {
+                cell = [[MMChatViewGifCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseId];
+            }
+        }
+            break;
     }
     
     cell.delegate = self;
@@ -164,6 +188,14 @@
 }
 //Integrate BQMM
 #pragma mark <MMInputToolBarViewDelegate>
+
+- (void)didClickGifTab {
+    //点击gif tab 后应该保证搜索模式是打开的 搜索UI是允许显示的
+    [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputToolBar.inputTextView];
+    [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputToolBar];
+    [[MMGifManager defaultManager] showTrending];
+}
+
 - (void)keyboardWillShowWithFrame:(CGRect)keyboardFrame {
     [self layoutViewsWithKeyboardFrame:keyboardFrame];
 }
@@ -178,6 +210,17 @@
         [[MMEmotionCentre defaultCentre] switchToDefaultKeyboard];
     }
     [_inputToolBar.inputTextView becomeFirstResponder];
+}
+
+-(void)didSendGifMessage:(MMGif *)gif {
+    NSString *sendStr = [@"[" stringByAppendingFormat:@"%@]", gif.text];
+    NSDictionary *msgData = @{WEBSTICKER_URL: gif.mainImage, WEBSTICKER_IS_GIF: (gif.isAnimated ? @"1" : @"0"), WEBSTICKER_ID: gif.imageId,WEBSTICKER_WIDTH: @((float)gif.size.width), WEBSTICKER_HEIGHT: @((float)gif.size.height)};
+    NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_WEB_TYPE,
+                             TEXT_MESG_DATA:msgData
+                             };
+    
+    ChatMessage *message = [[ChatMessage alloc] initWithMessageType:MMMessageTypeGif messageContent:sendStr messageExtraInfo:extDic];
+    [self appendAndDisplayMessage:message];
 }
 
 - (void)didSendMMFace:(MMEmoji *)emoji {

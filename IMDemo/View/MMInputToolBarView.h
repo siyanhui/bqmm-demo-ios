@@ -38,6 +38,8 @@
 
 @optional
 
+- (void)didClickGifTab;
+
 /*!
  keyboard will show with frame delegate method
  
