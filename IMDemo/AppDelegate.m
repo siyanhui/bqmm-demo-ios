@@ -12,7 +12,7 @@
 
 #import <Bugly/Bugly.h>
 #import "MMChatViewController.h"
-#import "BQMMDNSConfigurator.h"
+//#import "BQMMDNSConfigurator.h"
 
 @interface AppDelegate ()
 
