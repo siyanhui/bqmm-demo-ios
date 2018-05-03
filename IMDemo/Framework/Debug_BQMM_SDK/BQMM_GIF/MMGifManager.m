@@ -20,6 +20,7 @@
 @interface MMGifManager ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 //@property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) DXPopover *popover;
+@property (nonatomic) BOOL popoverShowing;
 @property (nonatomic, weak) UIView *attchedView;
 @property (nonatomic, weak) UIResponder<UITextInput> *inputView;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -194,6 +195,25 @@ static MMGifManager *_defaultManager = nil;
     [self updateSearchModeAndSearchUIWithStatus:MMSearchModeStatusKeyboardHide];
 }
 
+- (void)keyboardDidChangeFrame:(NSNotification *)notification {
+    if (_popoverShowing) {
+        NSDictionary *userInfo = [notification userInfo];
+        UIViewAnimationCurve animationCurve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+        NSInteger animationCurveOption = (animationCurve << 16);
+        
+        double animationDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        [UIView animateWithDuration:animationDuration
+                              delay:0.0
+                            options:animationCurveOption
+                         animations:^{
+                             [self showWebStickers];
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+    }
+}
+
 #pragma mark -- scrollview
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == _collectionView) {
@@ -343,12 +363,13 @@ static MMGifManager *_defaultManager = nil;
     if (_attchedView == nil) {
         return;
     }
-    [_collectionView setContentOffset:CGPointMake(0, 0) animated:false];
+//    [_collectionView setContentOffset:CGPointMake(0, 0) animated:false];
     //    [_timer invalidate];
     UIViewController *topController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     CGRect rect = [_attchedView convertRect:_attchedView.bounds toView:topController.view];
     CGPoint attachedPoint = CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y - 10);
     [self.popover showAtPoint:attachedPoint popoverPostion:DXPopoverPositionUp withContentView:self.contentView inView:topController.view];
+    _popoverShowing = true;
     //    _timer = [NSTimer scheduledTimerWithTimeInterval:MMTIPDuration
     //                                              target:self
     //                                            selector:@selector(dismissWebPic)
@@ -359,6 +380,7 @@ static MMGifManager *_defaultManager = nil;
 - (void)dismissWebPic {
     //    [_timer invalidate];
     [self.popover dismiss];
+    _popoverShowing = false;
 }
 
 - (void)deAttach {
@@ -407,6 +429,12 @@ static MMGifManager *_defaultManager = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(keyboardWillHide:)
                                                      name:UIKeyboardWillHideNotification
+                                                   object:nil];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardDidChangeFrame:)
+                                                     name:UIKeyboardDidChangeFrameNotification
                                                    object:nil];
     }
 }

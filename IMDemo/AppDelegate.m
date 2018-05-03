@@ -34,9 +34,15 @@
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
     [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageChinese;
     
+    
     MMTheme *theme = [[MMTheme alloc] init];
-    theme.navigationBarColor = [UIColor blueColor];
-    theme.navigationBarTintColor = [UIColor redColor];
+    CGFloat keyboardHeight = 216;
+    if ([[UIScreen mainScreen] bounds].size.height == 812) {
+        keyboardHeight = 250;
+    }
+    theme.keyboardHeight = keyboardHeight;
+//    theme.navigationBarColor = [UIColor blueColor];
+//    theme.navigationBarTintColor = [UIColor redColor];
     [[MMEmotionCentre defaultCentre] setTheme:theme];
     
     //initialize bugly
