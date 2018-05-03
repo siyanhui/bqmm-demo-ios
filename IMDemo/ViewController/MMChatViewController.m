@@ -35,7 +35,7 @@
     
     [MMEmotionCentre defaultCentre].delegate = _inputToolBar; //set SDK delegate
 //    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_inputToolBar.emojiButton withInput:_inputToolBar.inputTextView];
-    //BQMM集成   设置gif搜索相关
+    //Integrate BQMM   设置gif搜索相关
     [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputToolBar.inputTextView];
     [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputToolBar];
     __weak MMChatViewController* weakSelf = self;
@@ -45,7 +45,6 @@
             tempSelf.inputToolBar.inputTextView.text = nil;
             [tempSelf didSendGifMessage:gif];
         }
-        
     };
     
 }
@@ -276,14 +275,7 @@
 //Integrate BQMM
 #pragma mark RCMessageCellDelegate
 - (void)didTapChatViewCell:(ChatMessage *)messageModel {
-    if(messageModel.messageType == MMMessageTypeBigEmoji){
-        
-        NSDictionary *extDic = messageModel.messageExtraInfo;
-        if (extDic != nil && [extDic[TEXT_MESG_TYPE] isEqualToString:TEXT_MESG_FACE_TYPE]) {
-            UIViewController *emojiController = [[MMEmotionCentre defaultCentre] controllerForEmotionCode:extDic[TEXT_MESG_DATA][0][0]];
-            [self.navigationController pushViewController:emojiController animated:YES];
-        }
-    }
+    
 }
 
 - (void)didLongPressChatViewCell:(ChatMessage *)messageModel inView:(UIView *)view {

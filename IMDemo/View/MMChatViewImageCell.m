@@ -22,8 +22,8 @@
 
 - (void)setView {
     [super setView];
-    _pictureView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _pictureView.layer.cornerRadius = 2.0f;
+    _pictureView = [[MMImageView alloc] initWithFrame:CGRectZero];
+//    _pictureView.layer.cornerRadius = 2.0f;
     _pictureView.layer.masksToBounds = YES;
     [self.messageView addSubview:_pictureView];
     
@@ -37,22 +37,18 @@
     //Integrate BQMM
     NSDictionary *extDic = messageData.messageExtraInfo;
     if (extDic != nil && [extDic[TEXT_MESG_TYPE] isEqualToString:TEXT_MESG_FACE_TYPE]) {
-        NSArray *codes = nil;
+        NSString *emojiCode = nil;
         if (extDic[TEXT_MESG_DATA]) {
-            codes = @[extDic[TEXT_MESG_DATA][0][0]];
+            emojiCode = extDic[TEXT_MESG_DATA][0][0];
         }
-        __weak typeof(self) weakself = self;
-        [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeBig codes:codes completionHandler:^(NSArray *emojis) {
-            if (emojis.count > 0) {
-                MMEmoji *emoji = emojis[0];
-                if ([codes[0] isEqualToString:emoji.emojiCode]) {
-                    weakself.pictureView.image = emoji.emojiImage;
-                }
-            }
-            else {
-                weakself.pictureView.image = [UIImage imageNamed:@"mm_emoji_error"];
-            }
-        }];
+        
+        if (emojiCode != nil && emojiCode.length > 0) {
+            self.pictureView.errorImage = [UIImage imageNamed:@"mm_emoji_error"];
+            self.pictureView.image = [UIImage imageNamed:@"mm_emoji_loading"];
+            [self.pictureView setImageWithEmojiCode:emojiCode];
+        }else {
+            self.pictureView.image = [UIImage imageNamed:@"mm_emoji_error"];
+        }
     }
 }
 
@@ -60,6 +56,7 @@
     [super layoutSubviews];
     CGSize messageSize = self.messageView.frame.size;
     CGSize size = CGSizeMake(120, 120);
+    size = [MMImageView sizeForImageSize:size imgMaxSize:size];
     self.pictureView.frame = CGRectMake(messageSize.width - size.width - CONTENT_RIGHT_MARGIN, (messageSize.height - size.height) / 2, size.width, size.height);
 }
 

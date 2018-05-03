@@ -13,7 +13,7 @@
 
 @interface MMChatViewGifCell : MMChatViewBaseCell
 
-@property(nonatomic, strong) UIImageView *pictureView;
+@property(nonatomic, strong) MMImageView *pictureView;
 
 @end
 

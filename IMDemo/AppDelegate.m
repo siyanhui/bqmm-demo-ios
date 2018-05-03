@@ -26,12 +26,10 @@
     
     
     //Integrate BQMM    initialize
-    NSString *appId = @"15e0710942ec49a29d2224a6af4460ee";
-    NSString *secret = @"b11e0936a9d04be19300b1d6eec0ccd5";
+    NSString *appId = @"app id";
+    NSString *secret = @"app secret";
     [[MMEmotionCentre defaultCentre] setAppId:appId
                                        secret:secret];
- //   [[BQMMDNSConfigurator sharedConfigurator] setup];
-//    [[MMEmotionCentre defaultCentre] setAppkey:@"8aaf0708586c4340015870446c2d020e" platformId:@"97790e9a809a41c7aa523ba5fa019f25"];
     
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
     [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageChinese;
@@ -73,6 +71,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    //Integrate BQMM
+    [[MMEmotionCentre defaultCentre] clearCache];
 }
 
 @end

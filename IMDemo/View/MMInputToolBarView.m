@@ -177,7 +177,7 @@
 
 //Integrate BQMM
 #pragma mark MMEmotionCentreDelegate
-
+//点击表情键盘上的gif tab
 - (void)didClickGifTab {
     self.emojiButton.selected = NO;
     if ([self.delegate respondsToSelector:@selector(didClickGifTab)]) {
@@ -185,6 +185,7 @@
     }
 }
 
+//点击键盘中大表情的代理
 - (void)didSelectEmoji:(MMEmoji *)emoji
 {
     if ([self.delegate respondsToSelector:@selector(didSendMMFace:)]) {
@@ -192,6 +193,7 @@
     }
 }
 
+//点击联想表情的代理 （`deprecated`）
 - (void)didSelectTipEmoji:(MMEmoji *)emoji
 {
     if ([self.delegate respondsToSelector:@selector(didSendMMFace:)]) {
@@ -200,11 +202,13 @@
     }
 }
 
+//点击小表情键盘上发送按钮的代理
 - (void)didSendWithInput:(UIResponder<UITextInput> *)input
 {
     [self didSendTextMessage];
 }
 
+//点击输入框切换表情按钮状态
 - (void)tapOverlay
 {
     self.emojiButton.selected = false;

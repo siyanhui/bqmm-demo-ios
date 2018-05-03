@@ -10,6 +10,6 @@
 
 @interface MMChatViewImageCell : MMChatViewBaseCell
 
-@property(nonatomic, strong) UIImageView *pictureView;
+@property(nonatomic, strong) MMImageView *pictureView;
 
 @end

@@ -91,6 +91,7 @@
             break;
         case MMMessageTypeBigEmoji:
             size = CGSizeMake(120, 120);
+            size = [MMImageView sizeForImageSize:size imgMaxSize:size];
             break;
         case MMMessageTypeGif:
         {
@@ -99,11 +100,7 @@
             float height = [msgData[WEBSTICKER_HEIGHT] floatValue];
             float width = [msgData[WEBSTICKER_WIDTH] floatValue];
             //宽最大200 高最大 150
-            if (width > 200) {
-                height = 200.0 / width * height;
-                width = 200;
-            }
-            size = CGSizeMake(width, height);
+            size = [MMImageView sizeForImageSize:CGSizeMake(width, height) imgMaxSize:CGSizeMake(200, 150)];
         }
             break;
     }
