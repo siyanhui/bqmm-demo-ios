@@ -57,6 +57,10 @@ typedef enum
 
 @optional
 
+- (UIImage *)imageForEmojiSymbol:(nonnull NSString *)emojiSymbol;
+
+- (UIImage *)provideUnicodeEmojiTabIcon;
+
 /**
  *  the delegate method handles the selection of big emoji in the keyboard
  *

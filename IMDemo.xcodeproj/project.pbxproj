@@ -41,7 +41,6 @@
 		CCF67505207B6FC500BBD973 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF674C6207B6FC500BBD973 /* MASConstraint.m */; };
 		CCF67506207B6FC500BBD973 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF674C8207B6FC500BBD973 /* MASViewConstraint.m */; };
 		CCF67507207B6FC500BBD973 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF674C9207B6FC500BBD973 /* MASViewAttribute.m */; };
-		CCF67508207B6FC500BBD973 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CCF674CA207B6FC500BBD973 /* Info.plist */; };
 		CCF67509207B6FC500BBD973 /* DXPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF674CD207B6FC500BBD973 /* DXPopover.m */; };
 		CCF6750A207B6FC500BBD973 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF674CF207B6FC500BBD973 /* UIImage+WebP.m */; };
 		CCF6750B207B6FC500BBD973 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF674D0207B6FC500BBD973 /* MKAnnotationView+WebCache.m */; };
@@ -515,7 +514,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCF6751E207B6FC500BBD973 /* BQMM.bundle in Resources */,
-				CCF67508207B6FC500BBD973 /* Info.plist in Resources */,
 				CCC6758A1CC8B56B00A6084F /* LaunchScreen.storyboard in Resources */,
 				CCC675871CC8B56B00A6084F /* Assets.xcassets in Resources */,
 				CCC675851CC8B56B00A6084F /* Main.storyboard in Resources */,

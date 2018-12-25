@@ -177,6 +177,36 @@
 
 //Integrate BQMM
 #pragma mark MMEmotionCentreDelegate
+//- (UIImage *)imageForEmojiSymbol:(nonnull NSString *)emojiSymbol {
+//    if([emojiSymbol isEqual: @"😄"]) {
+//        CGSize size = CGSizeMake(20, 20);
+//        CGRect rect=CGRectMake(0.0f, 0.0f, size.width, size.height);
+//        UIGraphicsBeginImageContext(size);
+//        CGContextRef context = UIGraphicsGetCurrentContext();
+//        CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+//        CGContextFillRect(context, rect);
+//        UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//        //        UIImage *image = [UIImage imageNamed:@"u1f3a4"];
+//        return theImage;
+//    }else{
+//        return nil;
+//    }
+//}
+//
+//- (UIImage *)provideUnicodeEmojiTabIcon {
+//    CGSize size = CGSizeMake(80, 80);
+//    CGRect rect=CGRectMake(0.0f, 0.0f, 80, 80);
+//    UIGraphicsBeginImageContext(size);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);
+//    CGContextFillRect(context, rect);
+//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return theImage;
+//}
+
+
 //点击表情键盘上的gif tab
 - (void)didClickGifTab {
     self.emojiButton.selected = NO;
